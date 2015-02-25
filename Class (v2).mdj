@@ -265,7 +265,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+jump(DirectVector dv, int: right, int: up): boolean",
+											"text": "+jump(DirectVector dv): boolean",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5
 										}
@@ -2974,8 +2974,8 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"showShadow": true,
-									"left": 402,
-									"top": 191,
+									"left": 445,
+									"top": 187,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -3005,8 +3005,8 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"showShadow": true,
-									"left": 408,
-									"top": 205,
+									"left": 451,
+									"top": 201,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -3036,8 +3036,8 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"showShadow": true,
-									"left": 389,
-									"top": 164,
+									"left": 434,
+									"top": 160,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -3066,7 +3066,7 @@
 								"$ref": "AAAAAAFLt0WQqxtGWRU="
 							},
 							"lineStyle": 1,
-							"points": "534.875:118;396:184;366:198.1573033707865",
+							"points": "546.4782608695652:118;440:180;366:209.33333333333334",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -3965,22 +3965,7 @@
 									"visibility": "public",
 									"isStatic": false,
 									"isLeaf": false,
-									"isReadOnly": false,
-									"isOrdered": false,
-									"isUnique": false,
-									"direction": "in"
-								},
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAFLt11hPSHzDq8=",
-									"_parent": {
-										"$ref": "AAAAAAFLt1ppLSGFEE8="
-									},
-									"name": "int",
-									"visibility": "public",
-									"isStatic": false,
-									"isLeaf": false,
-									"type": "right",
+									"type": "",
 									"isReadOnly": false,
 									"isOrdered": false,
 									"isUnique": false,
@@ -4000,22 +3985,6 @@
 									"isOrdered": false,
 									"isUnique": false,
 									"direction": "return"
-								},
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAFLvBx+PV3Cgvk=",
-									"_parent": {
-										"$ref": "AAAAAAFLt1ppLSGFEE8="
-									},
-									"name": "int",
-									"visibility": "public",
-									"isStatic": false,
-									"isLeaf": false,
-									"type": "up",
-									"isReadOnly": false,
-									"isOrdered": false,
-									"isUnique": false,
-									"direction": "in"
 								}
 							],
 							"concurrency": "sequential",
@@ -4501,6 +4470,7 @@
 									"visibility": "public",
 									"isStatic": false,
 									"isLeaf": false,
+									"type": "",
 									"isReadOnly": false,
 									"isOrdered": false,
 									"isUnique": false,
