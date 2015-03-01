@@ -343,7 +343,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+jump(DirectVector): boolean",
+											"text": "+jump(): boolean",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5
 										},
@@ -4284,22 +4284,6 @@
 							"isStatic": false,
 							"isLeaf": false,
 							"parameters": [
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAFLt11hOyHyjuU=",
-									"_parent": {
-										"$ref": "AAAAAAFLt1ppLSGFEE8="
-									},
-									"name": "DirectVector",
-									"visibility": "public",
-									"isStatic": false,
-									"isLeaf": false,
-									"type": "",
-									"isReadOnly": false,
-									"isOrdered": false,
-									"isUnique": false,
-									"direction": "in"
-								},
 								{
 									"_type": "UMLParameter",
 									"_id": "AAAAAAFLt11hPiH0HXg=",
