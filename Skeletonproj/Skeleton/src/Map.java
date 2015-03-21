@@ -27,9 +27,15 @@ public final class Map {
 		
 	}
 	
+	/**
+	 * Tells the Bot where it will land after the jump
+	 * @param x Vertical coordinate of the fields place on the Map 
+	 * @param y Horizontal coordinate of the fields place on the Map 
+	 * @return The Field, where the Bot will jump to
+	 */
 	public static Field getNextField(int x, int y){
+		Skeleton.showInfo("Function called: Map: getNextField(int,int)");
 		return null;
-		
 	}
 	
 	
