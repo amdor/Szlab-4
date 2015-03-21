@@ -1,10 +1,2 @@
 INDEX VERSION 1.127+D:\°Zsolesz\BME\6\szlab4\git\Szlab-4\Skeletonproj\.metadata\.plugins\org.eclipse.jdt.core
-3519129897.index
-3644000695.index
-1483389352.index
-4083320474.index
-3173370853.index
 870560473.index
-4141490421.index
-716381353.index
-142866636.index
