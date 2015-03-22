@@ -73,5 +73,9 @@ public class Bot {
 	public void slowBot(){
 		Skeleton.showInfo("Function called: Bot: slowBot()\nThe DirecVector of the Bot is half as before");
 	}
+	
+	public void collison(){
+		Skeleton.showInfo(""Function called: Bot: collison()\nThe Bots will be destroyed");
+	}
 
 }

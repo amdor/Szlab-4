@@ -29,10 +29,17 @@ public class Field {
 			obstacle = new Putty();
 			obstacle.punishBot(bot);
 		}
+		if(Skeleton.isOccupied()){
+			bot.collison();
+			
+		}
 		if(Skeleton.isLandingSuccessfull())
 			Skeleton.showInfo("The landing was successful\nThis field now has this Bot");
+		
+			
 		else
 			;//Amikor a robot leesik, meg kéne még írni!!!
+			Skeleton.showInfo("bot destroy");
 		return false;
 		
 	}
