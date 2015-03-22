@@ -12,7 +12,7 @@ public abstract class Skeleton {
 	private static final String isOiledMessage = "Does the field have any oil on it?\n(a) Yes\n(b) No\n";
 	private static final String invalidAnswerMessage = "Please choose from the answers above \n";
 	private static final String isLandingSuccessfullMassege = "Would you like the robot to succeed in landing?\n(a) Yes\n(b)No\n";
-	private static final String isOccupiedMassege = "Is there a bot on the field you want land? \n(a) Yes\n(b)No\n";
+	private static final String isOccupiedMassege = "Is there a bot on the field you want land? \n(a)Yes\n(b)No\n";
 	private static final String[] mainMenuItems = {"(a)Put putty on current field\n",
 												   "(b)Put oil on current field\n",
 												   "(c)Jump to next field\n",
@@ -21,6 +21,7 @@ public abstract class Skeleton {
 	
 	private static int oilCount = 3;
 	private static int puttyCount = 3;
+	private static String prefix = "";
 	
 	/**
 	 * Print out information, so user knows what's 'under the hood'.
@@ -28,6 +29,10 @@ public abstract class Skeleton {
 	 */
 	public static void showInfo(String info)
 	{
+		if(info.charAt(info.length()-1) != '\n')
+		{
+			info = info.concat("\n");
+		}
 		System.out.println(info);
 	}
 	
@@ -40,7 +45,7 @@ public abstract class Skeleton {
 		if(oilCount > 0)
 		{
 			oilCount--;
-			showInfo(String.format("Bot has oil.\n %d oiles left to put\n", oilCount));
+			showInfo(String.format("Bot has oil.\n%d oiles left to put", oilCount));
 			return true;
 		}
 		else
@@ -59,7 +64,7 @@ public abstract class Skeleton {
 		if(puttyCount > 0)
 		{
 			puttyCount--;
-			showInfo(String.format("Bot has Putty.\n %d putties left to put\n", puttyCount));
+			showInfo(String.format("Bot has Putty.\n%d putties left to put", puttyCount));
 			return true;
 		}
 		else
@@ -153,6 +158,7 @@ public abstract class Skeleton {
 		boolean exited = false;
 		while(!exited)
 		{
+			System.out.println("\nChoose a menu item\n");
 			for(int i = 0; i < mainMenuItems.length; i++)
 			{
 				System.out.println(mainMenuItems[i]);

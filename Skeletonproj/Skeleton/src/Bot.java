@@ -16,7 +16,10 @@ public class Bot {
 		Skeleton.showInfo("Function called: Bot: jump()");
 		currentField.removeBotFromField();
 		Map.getNextField(0, 0);
-		currentField.handleLanding(this);
+		if(currentField.handleLanding(this)){
+			
+		}
+		Skeleton.showInfo("Function ended: jump()");
 		return false;
 		
 	}
@@ -28,6 +31,7 @@ public class Bot {
 	public boolean changeSpeedVector(int x, int y){
 		Skeleton.showInfo("Function called: Bot: changeSpeedVector(int, int)");
 		directVector.changeDirection(x, y);
+		Skeleton.showInfo("Function ended: changeSpeedVector()");
 		return false;
 		
 	}
@@ -44,6 +48,7 @@ public class Bot {
 		else{
 			Skeleton.showInfo("You can't put down Oil on this field");
 		}
+		Skeleton.showInfo("Function ended: putOil()");
 		
 	}
 	/**
@@ -52,12 +57,13 @@ public class Bot {
 	 */
 	public void putPutty(){
 		Skeleton.showInfo("Function called: Bot: putPutty");
-		if(Skeleton.hasOil()){
+		if(Skeleton.hasPutty()){
 			Skeleton.showInfo("A Putty was put down on currentField");
 		}
 		else{
 			Skeleton.showInfo("You can't put down Putty on this field");
 		}
+		Skeleton.showInfo("Function ended: putPutty()");
 	}
 	
 	public int getOilCoint(){
@@ -72,10 +78,13 @@ public class Bot {
 	 */
 	public void slowBot(){
 		Skeleton.showInfo("Function called: Bot: slowBot()\nThe DirecVector of the Bot is half as before");
+		Skeleton.showInfo("Function ended: slowBot()");
 	}
 	
+	
 	public void collison(){
-		Skeleton.showInfo(""Function called: Bot: collison()\nThe Bots will be destroyed");
+		Skeleton.showInfo("Function called: Bot: collison()\nThe Bots will be destroyed");
+		Skeleton.showInfo("Function ended: collision()");
 	}
 
 }

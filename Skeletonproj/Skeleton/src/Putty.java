@@ -11,5 +11,6 @@ public class Putty implements Obstacle{
 	public void punishBot(Bot bot){
 		Skeleton.showInfo("Function called: Putty: punishBot()");
 		bot.slowBot();
+		Skeleton.showInfo("Function ended: punishBot()");
 	}
 }

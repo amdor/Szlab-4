@@ -15,6 +15,7 @@ public class DirectVector {
 	
 	public void changeDirection(int x, int y){
 		Skeleton.showInfo("Function called: DirectVector: changeDirection(int, int)");
+		Skeleton.showInfo("Function ended: changeDirection()");
 
 	}
 	

@@ -12,5 +12,6 @@ public class Oil implements Obstacle{
 		Skeleton.showInfo("Function called: Oil: punishBot()");
 		Skeleton.showInfo("isDerictible set to false");
 		bot.isDirectable = false;
+		Skeleton.showInfo("Function ended: punishBot()");
 	}
 }

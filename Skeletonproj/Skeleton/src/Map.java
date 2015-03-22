@@ -35,6 +35,7 @@ public final class Map {
 	 */
 	public static Field getNextField(int x, int y){
 		Skeleton.showInfo("Function called: Map: getNextField(int,int)");
+		Skeleton.showInfo("Function ended: getNextField()");
 		return null;
 	}
 	
