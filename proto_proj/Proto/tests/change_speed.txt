@@ -1,0 +1,7 @@
+getBotState
+changeSpeed 3 1
+jump
+getBotState
+changeSpeed 0 0
+jump
+getBotState

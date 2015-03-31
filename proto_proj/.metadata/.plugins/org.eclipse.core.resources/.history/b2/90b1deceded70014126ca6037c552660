@@ -1,0 +1,21 @@
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+
+public class Proto {
+	private static InputStream protoStandardInput;
+	private static OutputStream protoStandardOutput;
+	
+	
+	public void jumpTest() throws IOException
+	{
+		
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

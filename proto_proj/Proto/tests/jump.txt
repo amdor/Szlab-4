@@ -1,0 +1,3 @@
+getBotState
+jump
+getBotState

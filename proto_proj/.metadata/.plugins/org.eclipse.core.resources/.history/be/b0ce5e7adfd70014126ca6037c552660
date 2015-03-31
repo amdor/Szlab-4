@@ -1,0 +1,37 @@
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+
+public class Proto {
+	private static InputStream protoStandardInput;
+	private static OutputStream protoStandardOutput;
+
+	//The interface's methods
+	
+	
+	/**
+	 * Makes a jump call on the robo. Pulled out from the main logic
+	 * to reach integrity, and for possible further extension in future
+	 * @param robo the Bot to initiate the jump on
+	 */
+	public void jump(Bot robo)
+	{
+		robo.jump();
+	}
+	
+	
+	/**
+	 * Changes the robo's speed vector. Yet does nothing else.
+	 */
+	public void changeSpeed()
+	{
+		
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
