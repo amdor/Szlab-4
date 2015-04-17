@@ -19,4 +19,12 @@ public class DirectVector {
 
 	}
 	
+	public int getright(){
+		return this.right;
+	}
+	
+	public int getup(){
+		return this.up;
+	}
+	
 }

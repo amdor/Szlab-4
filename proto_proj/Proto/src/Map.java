@@ -33,10 +33,13 @@ public final class Map {
 	 * @param y Horizontal coordinate of the fields place on the Map 
 	 * @return The Field, where the Bot will jump to
 	 */
-	public static Field getNextField(int x, int y){
-		Skeleton.showInfo("Function called: Map: getNextField(int,int)");
-		Skeleton.showInfo("Function ended: getNextField()");
-		return null;
+	public static Field getNextField(Field currentField, DirectVector dv){
+		
+		int x = currentField.getX() + dv.getright();
+		int y = currentField.getY() + dv.getup();
+		return fields.get(x).get(y);
+//		Skeleton.showInfo("Function called: Map: getNextField(int,int)");
+//		Skeleton.showInfo("Function ended: getNextField()");
 	}
 	
 	

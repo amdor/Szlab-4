@@ -1,23 +1,23 @@
-
-public class Bot {
+ 
+public class Bot extends Machine{
 	public boolean isDirectable;
 	private int oilCount;
 	private int puttyCount;
-	private int ID;
-	private Field currentField = new Field(0,0);
-	private DirectVector directVector = new DirectVector();
 	
 	/**
 	 * makes the Bot jump from one Field to another
 	 * Calculates the params of getNExtField from the directVector, and current position
 	 * @return true if jump was successful, false if it wasn't
 	 */
+	@Override
 	public boolean jump(){
 		Skeleton.showInfo("Function called: Bot: jump()");
 		currentField.removeBotFromField();
-		Map.getNextField(0, 0);
-		if(currentField.handleLanding(this)){
-			
+		Field tmp = Map.getNextField(this.currentField, this.directVector);
+		this.currentField = tmp;
+		//az ezutáni currentField már az ahova ugrott a robot
+		if(this.currentField.handleLanding(this)){
+		return true;	
 		}
 		Skeleton.showInfo("Function ended: jump()");
 		return false;
