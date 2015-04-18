@@ -1,8 +1,36 @@
- 
-public class Bot extends Machine{
+import java.lang.Math;
+
+public class Bot extends Machine {
 	public boolean isDirectable;
 	private int oilCount;
 	private int puttyCount;
+
+	/**
+	 * Initializer to be used 
+	 * @param ID The ID of the bot
+	 * @param speed Initial speed of the Bot
+	 * @param startingField The field where the Bot is to be start its life
+	 */
+	
+	public Bot(int id, Field startingField)throws IllegalArgumentException{
+		isDirectable = true;
+		oilCount = 3;
+		puttyCount = 3;
+		directVector = new DirectVector();
+		if(ID >= 20)
+		{
+			isDirectable = false;
+			throw(new IllegalArgumentException());
+		}else {
+			this.ID = id;
+		}
+		//if there's no field or the field is occupied, than it's not good
+		if((startingField == null) || !(startingField.addMachineToField(this))){
+			throw(new IllegalArgumentException());
+		} else {//else field is valid, and now holds our new bot
+			this.currentField = startingField;
+		}
+	}
 	
 	/**
 	 * Initializer to be used 
@@ -42,10 +70,17 @@ public class Bot extends Machine{
 	 * @return true if jump was successful, false if it wasn't
 	 */
 	@Override
+<<<<<<< HEAD
+	public boolean jump(){
+		this.isDirectable = true;
+		currentField.removeMachineFromField();
+		Field tmp = Map.getNextField(this.currentField, this.directVector);
+=======
 	public boolean jump() {
 		this.isDirectable = true; //we're out of oil
 		currentField.removeMachineFromField();
 		Field tmp = Map.getNextField(this.currentField, this.speedVector);
+>>>>>>> origin/master
 		this.currentField = tmp;
 		//az ezutáni currentField már az ahova ugrott a robot
 		if(this.currentField.handleLanding(this)){
@@ -66,10 +101,17 @@ public class Bot extends Machine{
 	 * @return true if succeeds false if not
 	 */
 	public boolean changeSpeedVector(int x, int y){
+<<<<<<< HEAD
+
+		x+=directVector.getright();
+		y+=directVector.getup();
+		directVector.changeDirection(x, y);
+=======
 		if(isDirectable) {
 			speedVector.changeDirection(x, y);
 			return true;
 		}
+>>>>>>> origin/master
 		return false;
 		
 	}
@@ -111,7 +153,47 @@ public class Bot extends Machine{
 	 * Makes the DirectVector of the Bot the half as it was before
 	 */
 	public void slowBot(){
+<<<<<<< HEAD
+		int jobbra = directVector.getright();
+		int fel = directVector.getup();
+		jobbra=jobbra/2;
+		fel=fel/2;
+		this.changeSpeedVector(jobbra, fel);
+//		Skeleton.showInfo("Function called: Bot: slowBot()\nThe DirecVector of the Bot is half as before");
+//		Skeleton.showInfo("Function ended: slowBot()");
+	}
+	
+	
+	public void collison(){
+	}
+	
+	public boolean compareSpeed(Bot bot2){
+		double b1 = Math.sqrt((double)this.directVector.getright()*(double)this.directVector.getright() +
+				(double)this.directVector.getup()*(double)this.directVector.getup());
+		double b2= Math.sqrt(bot2.directVector.getright()*bot2.directVector.getright() +
+				bot2.directVector.getup()*bot2.directVector.getup());
+		return b2>b1? true : false;
+		
+	}
+	
+	public DirectVector getDirectVector(){
+		return this.directVector;
+	}
+	
+	public void averageVector(Bot bot2){
+		int x = (this.directVector.getright() + bot2.directVector.getright())/2;
+		int y = (this.directVector.getup() + bot2.directVector.getup())/2;
+		directVector.changeDirection(x, y);		
+	}
+	
+	public int getID() {
+		return this.ID;
+	}
+	
+
+=======
 		this.changeSpeedVector(this.speedVector.right/2, this.speedVector.up/2);
 	}
 	
+>>>>>>> origin/master
 }

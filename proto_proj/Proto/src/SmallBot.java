@@ -2,6 +2,13 @@
 public class SmallBot extends Machine{
 	public int round;
 	
+	public SmallBot(int id, int x, int y){
+		round = 0;
+		ID = id;
+		directVector = new DirectVector();
+		currentField = new Field(x,y);
+	}
+	
 	public boolean searchNext(){
 		return true;
 	}
@@ -21,4 +28,8 @@ public class SmallBot extends Machine{
 		// TODO Auto-generated method stub
 		
 	}
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/master
 }
