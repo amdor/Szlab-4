@@ -3,17 +3,42 @@ import java.util.ArrayList;
 
 public final class Map {
 
-	private static ArrayList<ArrayList<Field>> fields;
+	public static ArrayList<ArrayList<Field>> fields;
 	private static Map instance = null;
 	
 	private Map(){
 		fields = new ArrayList<ArrayList<Field>>();
-		for(int i=0;i < 50; i++){
+		//commented for test reasons
+		/*for(int i=0;i < 50; i++){
 			fields.add(new ArrayList<Field>());
 			for (int j=0; j < 25;j++)
 				fields.get(i).add(new Field(i, j));
-		}
+		}*/
 		
+	}
+	
+	//helper method for the prototype only
+	public boolean addField(Field newField) {
+		int x = newField.x;
+		int y = newField.y;
+		if(x < 0 || y < 0)//cos arraylists
+		{
+			return false;
+		}
+		if(fields.size() <= x)//otherwise it would throw an exceptions
+		{
+			fields.add(x, new ArrayList<Field>());
+		}
+		fields.get(x).add(y, newField);
+		
+		return true;
+		
+	}
+	
+	//for prototype test only
+	public Field getField(int x, int y)
+	{
+		return fields.get(x).get(y);
 	}
 	
 	public static Map getInstance(){

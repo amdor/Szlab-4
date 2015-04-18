@@ -94,10 +94,10 @@ public class Bot extends Machine {
 	 * @return true if succeeds false if not
 	 */
 	public boolean changeSpeedVector(int x, int y){
-		x+=directVector.getright();
-		y+=directVector.getup();
+		/*x+=directVector.getright();
+		y+=directVector.getup();*/
 		directVector.changeDirection(x, y);
-		return false;
+		return true;
 		
 	}
 	

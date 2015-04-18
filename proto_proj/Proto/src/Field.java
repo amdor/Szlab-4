@@ -3,7 +3,7 @@ public class Field {
 
 //	private int hasBot;
 	private Machine currentMachine;
-	private boolean isValid;
+	public boolean isValid;//public for prototype only
 	public int x;
 	public int y;
 //	private Obstacle putty;
@@ -26,13 +26,13 @@ public class Field {
 	//	Skeleton.showInfo("Function ended: Field()");
 	}
 
-	public int getX(){
+	/*public int getX(){
 		return this.x;
 	}
 	
 	public int getY(){
 		return this.y;
-	}
+	}*/ //either override spec, or delete these getters!
 	
 	/**
 	 * Handles the landing of the bot, tells the bot, if the landing was successful, 

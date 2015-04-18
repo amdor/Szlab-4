@@ -2,7 +2,7 @@
 public abstract class Machine {
 
 	protected DirectVector directVector;
-	protected Field currentField;
+	public Field currentField; //for proto only
 	protected int ID;
 	
 /*	public boolean jump(){

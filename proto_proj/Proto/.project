@@ -14,26 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>apptest/change_speed.txt</name>
-			<type>1</type>
-			<locationURI>PROJECT_LOC/tests/change_speed.txt</locationURI>
-		</link>
-		<link>
-			<name>apptest/change_speed_output.txt</name>
-			<type>1</type>
-			<locationURI>PROJECT_LOC/tests/change_speed_output.txt</locationURI>
-		</link>
-		<link>
-			<name>apptest/jump.txt</name>
-			<type>1</type>
-			<locationURI>PROJECT_LOC/tests/jump.txt</locationURI>
-		</link>
-		<link>
-			<name>apptest/jump_output.txt</name>
-			<type>1</type>
-			<locationURI>PROJECT_LOC/tests/jump_output.txt</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>
