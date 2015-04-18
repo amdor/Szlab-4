@@ -1,1 +1,15 @@
 *.class
+proto_proj/.recommenders/index/http___download_eclipse_org_recommenders_models_luna_/_2.fnm
+*.tii
+*.prefs
+*.ini
+*.fdt
+*.tis
+proto_proj/.recommenders/index/http___download_eclipse_org_recommenders_models_luna_/_2.prx
+*.nrm
+proto_proj/.recommenders/index/http___download_eclipse_org_recommenders_models_luna_/_2.frq
+*.fdx
+proto_proj/.metadata/.plugins/org.eclipse.ui.workbench.texteditor/dialog_settings.xml
+proto_proj/.metadata/.plugins/org.eclipse.ltk.ui.refactoring/dialog_settings.xml
+proto_proj/.metadata/.plugins/org.eclipse.jdt.core/savedIndexNames.txt
+proto_proj/.metadata/*

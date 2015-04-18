@@ -53,7 +53,7 @@ public class Bot extends Machine {
 		{
 			throw(new IllegalArgumentException());
 		} else {
-			this.speedVector = speed;
+			this.directVector = speed;
 		}
 		//if there's no field or the field is occupied, than it's not good
 		if((startingField == null) || !(startingField.addMachineToField(this))){
@@ -70,17 +70,10 @@ public class Bot extends Machine {
 	 * @return true if jump was successful, false if it wasn't
 	 */
 	@Override
-<<<<<<< HEAD
 	public boolean jump(){
 		this.isDirectable = true;
 		currentField.removeMachineFromField();
 		Field tmp = Map.getNextField(this.currentField, this.directVector);
-=======
-	public boolean jump() {
-		this.isDirectable = true; //we're out of oil
-		currentField.removeMachineFromField();
-		Field tmp = Map.getNextField(this.currentField, this.speedVector);
->>>>>>> origin/master
 		this.currentField = tmp;
 		//az ezutáni currentField már az ahova ugrott a robot
 		if(this.currentField.handleLanding(this)){
@@ -101,17 +94,9 @@ public class Bot extends Machine {
 	 * @return true if succeeds false if not
 	 */
 	public boolean changeSpeedVector(int x, int y){
-<<<<<<< HEAD
-
 		x+=directVector.getright();
 		y+=directVector.getup();
 		directVector.changeDirection(x, y);
-=======
-		if(isDirectable) {
-			speedVector.changeDirection(x, y);
-			return true;
-		}
->>>>>>> origin/master
 		return false;
 		
 	}
@@ -153,7 +138,6 @@ public class Bot extends Machine {
 	 * Makes the DirectVector of the Bot the half as it was before
 	 */
 	public void slowBot(){
-<<<<<<< HEAD
 		int jobbra = directVector.getright();
 		int fel = directVector.getup();
 		jobbra=jobbra/2;
@@ -185,15 +169,4 @@ public class Bot extends Machine {
 		int y = (this.directVector.getup() + bot2.directVector.getup())/2;
 		directVector.changeDirection(x, y);		
 	}
-	
-	public int getID() {
-		return this.ID;
-	}
-	
-
-=======
-		this.changeSpeedVector(this.speedVector.right/2, this.speedVector.up/2);
-	}
-	
->>>>>>> origin/master
 }

@@ -1,6 +1,6 @@
 
 public abstract class Machine {
-<<<<<<< HEAD
+
 	protected DirectVector directVector;
 	protected Field currentField;
 	protected int ID;
@@ -18,13 +18,6 @@ public abstract class Machine {
 		return false;
 		
 	}*/
-	
-=======
-	protected DirectVector speedVector;
-	protected Field currentField;
-	protected int ID;
-	
->>>>>>> origin/master
 	public abstract boolean jump();
 	
 	public abstract void collision();
