@@ -6,6 +6,8 @@ import java.io.OutputStream;
 public class Proto {
 	private static InputStream protoStandardInput;
 	private static OutputStream protoStandardOutput;
+	private static int currentMaxBotID = 0;
+	private static int currentMaxSmallBotID = 20;
 
 	
 	//The interface's methods

@@ -4,13 +4,22 @@
  */
 public class Putty implements Obstacle{
 
+	public int stepCount;
+	
+	public Putty() {
+		stepCount = 0;
+	}
+	
 	/**
-	 * If the bot steps in putty, the isDerictible is changed to false, so it's DirectVector can't be changed.
-	 * @param bot The bot's DirectVector can't be changed, because it stepped on a putty.
+	 * If the bot steps in putty, than its speed is halfed and
+	 * properly according to the stepCount, putty can destroy itself
+	 * @param bot The bot to punish
 	 */
 	public void punishBot(Bot bot){
-		Skeleton.showInfo("Function called: Putty: punishBot()");
 		bot.slowBot();
-		Skeleton.showInfo("Function ended: punishBot()");
+		stepCount++;
+		if(stepCount >= 4) {
+			bot.currentField.removeObstacle();
+		}
 	}
 }

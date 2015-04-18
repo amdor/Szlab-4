@@ -35,8 +35,8 @@ public final class Map {
 	 */
 	public static Field getNextField(Field currentField, DirectVector dv){
 		
-		int x = currentField.getX() + dv.getright();
-		int y = currentField.getY() + dv.getup();
+		int x = currentField.x + dv.getright();
+		int y = currentField.y + dv.getup();
 		return fields.get(x).get(y);
 //		Skeleton.showInfo("Function called: Map: getNextField(int,int)");
 //		Skeleton.showInfo("Function ended: getNextField()");

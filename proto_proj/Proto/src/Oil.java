@@ -4,14 +4,16 @@
  */
 public class Oil implements Obstacle{
 
+	public int roundCount;
+	
+	public Oil(){
+		roundCount = 0;
+	}
 	/**
 	 * If the bot steps in oil, the slowBot makes his DirectVector the half of what it was
-	 * @param bot This bot is slowed down, because it stepped on an oil
+	 * @param bot The bot to be make uncontrollable
 	 */
 	public void punishBot(Bot bot){
-		Skeleton.showInfo("Function called: Oil: punishBot()");
-		Skeleton.showInfo("isDerictible set to false");
 		bot.isDirectable = false;
-		Skeleton.showInfo("Function ended: punishBot()");
 	}
 }
