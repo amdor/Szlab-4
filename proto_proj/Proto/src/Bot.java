@@ -75,16 +75,37 @@ public class Bot extends Machine {
 		currentField.removeMachineFromField();
 		Field tmp = Map.getNextField(this.currentField, this.directVector);
 		this.currentField = tmp;
-		//az ezutáni currentField már az ahova ugrott a robot
+		//this is the next currentField, where the robot will jump
 		if(this.currentField.handleLanding(this)){
 		return true;	
 		}
 		return false;
-		
 	}
 	
+	/**
+	 * the function is called when two Bot collides
+	 */
 	@Override
 	public void collision(){
+		if(currentField.getMachineID() < 20)
+		{
+			if(compareSpeed((Bot)currentField.getMachine()))
+			{
+				Bot b = (Bot) currentField.getMachine();
+				b.averageVector(this);
+				// TODO Kill this Bot!!!!!!!! KILLLL
+			}
+			else
+			{
+				this.averageVector((Bot) currentField.getMachine());
+				// TODO KILL THE OTHER BOT
+			}
+		}
+		else if(currentField.getMachineID() > 19)
+		{
+			currentField.setObstacle(new Oil());
+			// TODO KILL THE SMALLBOT
+		}
 	}
 
 	/**
@@ -108,6 +129,7 @@ public class Bot extends Machine {
 	public void putOil(){
 		if(this.oilCount > 0){
 			this.currentField.setObstacle(new Oil());
+			this.currentField.setHasOil(true);
 			this.oilCount--;
 		}		
 	}
@@ -119,6 +141,7 @@ public class Bot extends Machine {
 	public void putPutty(){
 		if(puttyCount > 0){
 			currentField.setObstacle(new Putty());
+			this.currentField.setHasPutty(true);
 			puttyCount--;
 		}
 	}
@@ -130,10 +153,7 @@ public class Bot extends Machine {
 	public int getPuttyCount(){
 		return this.puttyCount;
 	}
-	
-	public int getID() {
-		return this.ID;
-	}
+
 	/**
 	 * Makes the DirectVector of the Bot the half as it was before
 	 */
@@ -147,10 +167,11 @@ public class Bot extends Machine {
 //		Skeleton.showInfo("Function ended: slowBot()");
 	}
 	
-	
-	public void collison(){
-	}
-	
+	/**
+	 * compares the speed of 2 robots, that collided
+	 * @param bot2 this objects speed is compared to this bot2
+	 * @return true, if the speed of bot2 is bigger, false otherwise
+	 */
 	public boolean compareSpeed(Bot bot2){
 		double b1 = Math.sqrt((double)this.directVector.getright()*(double)this.directVector.getright() +
 				(double)this.directVector.getup()*(double)this.directVector.getup());
@@ -164,6 +185,10 @@ public class Bot extends Machine {
 		return this.directVector;
 	}
 	
+	/**
+	 * calculates the average of the speed of two robots, that collided
+	 * @param bot2 the bot whit which the collision happened
+	 */
 	public void averageVector(Bot bot2){
 		int x = (this.directVector.getright() + bot2.directVector.getright())/2;
 		int y = (this.directVector.getup() + bot2.directVector.getup())/2;

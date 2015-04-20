@@ -7,7 +7,9 @@ public class DirectVector {
 	public int right;
 	public int up;
 
-	
+	/**
+	 * Initializer to be used
+	 */
 	public DirectVector(){
 		right = 0;
 		up = 0;
@@ -25,10 +27,18 @@ public class DirectVector {
 		this.up = y;
 	}
 	
+	/**
+	 * Get function for right attribute
+	 * @return the value of right
+	 */
 	public int getright(){
 		return this.right;
 	}
 	
+	/**
+	 * Get function for up attribute
+	 * @return the value of up
+	 */
 	public int getup(){
 		return this.up;
 	}

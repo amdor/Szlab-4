@@ -54,35 +54,78 @@ public class Proto {
 	}
 	
 	//it is handled at higher level if there is no param given (in processCommand)
+	/**
+	 * Puts down an oil on the field, which is given with x and y
+	 * @param x the horizontal coordinate of the field, where the oil will be put
+	 * @param y the vertical coordinate of the field, where the oil will be put
+	 */
 	private static void putOil(int x, int y)
 	{
-		//TODO
+		buildMapFromFile(testMapName);
+		testMap.fields.get(x).get(y).setObstacle(new Oil());
 	}
 	
 	//it is handled at higher level if there is no param given (in processCommand)
+	/**
+	 * Puts down a putty on the field, which is given with x and y
+	 * @param x the horizontal coordinate of the field, where the oil will be put
+	 * @param y the vertical coordinate of the field, where the oil will be put
+	 */
 	private static void putPutty(int x, int y)
 	{
-		//TODO
+		buildMapFromFile(testMapName);
+		testMap.fields.get(x).get(y).setObstacle(new Putty());
 	}
 	
+	/**
+	 * Puts a robot on the field given with its coordinates
+	 * @param x the horizontal coordinate of the field
+	 * @param y the vertical coordinate of the field
+	 * @param bot the bot that will be put on the field
+	 */
 	private static void putBot(int x, int y, Bot bot) 
 	{
-		//TODO
+		buildMapFromFile(testMapName);
+		if(testMap.getField(x, y).getMachine().equals(null))
+		{
+			currentMaxBotID++;
+			bot = new Bot(currentMaxBotID, testMap.getField(x, y));
+			testMachines.add(bot);
+		}
 	}
 	
+	/**
+	 * Puts a Small robot on the field given with its coordinates
+	 * @param x the horizontal coordinate of the field
+	 * @param y the vertical coordinate of the field
+	 * @param smallbot the smallbot that will be put on the field
+	 */
 	private static void putCleanerBot(int x, int y, SmallBot smallBot)
 	{
-		//TODO
+		buildMapFromFile(testMapName);
+		if(testMap.getField(x, y).getMachine().equals(null))
+		{
+			currentMaxSmallBotID++;
+			smallBot = new SmallBot(currentMaxSmallBotID, testMap.getField(x, y));
+			testMachines.add(smallBot);
+		}
 	}	
 	
 	private static void modifyMapWithField(Field field)
 	{
 		//TODO
 	}
-	
+	/**
+	 * Makes jump all machines numberOfRounds times
+	 * @param numberOfRounds the number of the jumps
+	 */
 	private static void advanceTime(int numberOfRounds)
 	{
-		//TODO
+		for(int i=0;i<numberOfRounds;i++)
+		{
+			for(int j=0;j<testMachines.size();j++)
+				testMachines.get(j).jump();
+		}
 	}
 
 	//it is handled at higher level if there is no param given (in processCommand)
@@ -96,19 +139,35 @@ public class Proto {
 
 	private static String getMap()
 	{
-		//TODO
-		return null;
+		String tmp = new String();
+		for(int i=0; i<testMap.fields.size(); i++)
+		{
+			for(int j=0; j<testMap.fields.get(i).size(); j++)
+			{
+				tmp.concat(getField(i, j));
+				tmp.concat("\n");
+			}
+		}
+		return tmp;
 	}
 	
 	private static String getField(int x, int y)
 	{
-		//TODO
-		return null;
+		buildMapFromFile(testMapName);
+		String state;
+		Field current = testMap.getField(x, y);
+		if(current.getHasOil())
+			state = "Oil";
+		else if(current.getHasPutty())
+			state = "Putty";
+		else
+			state = "None";
+		return ("getField " + x + y + state);
 	}
 	
 	private static String getBots() 
 	{
-		//TODO
+		
 		return null;
 	}
 	
@@ -176,10 +235,11 @@ public class Proto {
 			}
 			break;
 		case "putOil":
-
+			if((Integer.parseInt(input[1])) >=0 && (Integer.parseInt(input[2])) >= 0)
+				putOil(Integer.parseInt(input[1]), Integer.parseInt(input[2]));
 			break;
 		case "putPutty":
-
+			putPutty(Integer.parseInt(input[1]), Integer.parseInt(input[2]));
 			break;
 		case "getBotState":
 			if(input.length  == 2){
@@ -194,10 +254,12 @@ public class Proto {
 
 			break;
 		case "putBot":
-
+			putBot(Integer.parseInt(input[1]), Integer.parseInt(input[2]), new Bot(currentMaxBotID++, 
+					new Field(Integer.parseInt(input[1]), Integer.parseInt(input[2]))));
 			break;
 		case "putCleanerBot":
-
+			putCleanerBot(Integer.parseInt(input[1]), Integer.parseInt(input[2]), new SmallBot(currentMaxSmallBotID++,
+					new Field(Integer.parseInt(input[1]), Integer.parseInt(input[2]))));
 			break;
 		case "modifyMapWithField":
 
@@ -206,10 +268,10 @@ public class Proto {
 
 			break;
 		case "getMap":
-
+			protoStandardOutput.write(getMap());
 			break;
 		case "getField":
-
+			protoStandardOutput.write(getField(Integer.parseInt(input[1]), Integer.parseInt(input[2])));
 			break;
 		case "getBots":
 

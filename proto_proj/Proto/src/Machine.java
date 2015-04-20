@@ -21,4 +21,12 @@ public abstract class Machine {
 	public abstract boolean jump();
 	
 	public abstract void collision();
+	
+	/**
+	 * 
+	 * @return the ID of the machine
+	 */
+	public int getID() {
+		return this.ID;
+	}
 }
