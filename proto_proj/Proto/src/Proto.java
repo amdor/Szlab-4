@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Proto {
 //	private static InputStream protoStandardInput;
-	private static OutputStreamWriter protoStandardOutput;//i.e.:protoStandardOutput = new OutputStreamWriter(System.out);
+	private static BufferedWriter protoStandardOutput;//i.e.:protoStandardOutput = new OutputStreamWriter(System.out);
 	private static int currentMaxBotID = 0;
 	private static int currentMaxSmallBotID = 20;
 	
@@ -25,18 +25,16 @@ public class Proto {
 		"\\jump.txt", "\\jump_output.txt"};
 	
 	private static Map testMap;
-	private static ArrayList<Machine> testMachines = new ArrayList<Machine>();//ID is the index
+	private static ArrayList<Machine> testMachines = new ArrayList<Machine>();
 	private static Bot playerBot;
 	
 	
 	/**
-	 * Makes a jump call on the robo. Pulled out from the main logic
-	 * to reach integrity, and for possible further extension in future
-	 * @param robo the Bot to initiate the jump on
+	 * Makes a jump call by calling advanceTime
 	 */
-	private static void jump(Bot robo)
+	private static void jump()
 	{
-		robo.jump();
+		advanceTime(1);
 	}
 	
 	
@@ -61,8 +59,7 @@ public class Proto {
 	 */
 	private static void putOil(int x, int y)
 	{
-		buildMapFromFile(testMapName);
-		testMap.fields.get(x).get(y).setObstacle(new Oil());
+		Map.fields.get(x).get(y).setObstacle(new Oil());
 	}
 	
 	//it is handled at higher level if there is no param given (in processCommand)
@@ -73,8 +70,21 @@ public class Proto {
 	 */
 	private static void putPutty(int x, int y)
 	{
-		buildMapFromFile(testMapName);
-		testMap.fields.get(x).get(y).setObstacle(new Putty());
+		Map.fields.get(x).get(y).setObstacle(new Putty());
+	}
+	
+	
+	/**
+	 * Sets playerBot's parameters
+	 * @param isDir
+	 * @param oilCount
+	 * @param puttyCount
+	 */
+	private static void setBotState(boolean isDir, int oilCount, int puttyCount) 
+	{
+		playerBot.isDirectable = isDir;
+		playerBot.oilCount = oilCount;
+		playerBot.puttyCount = puttyCount;
 	}
 	
 	/**
@@ -85,12 +95,12 @@ public class Proto {
 	 */
 	private static void putBot(int x, int y, Bot bot) 
 	{
-		buildMapFromFile(testMapName);
 		if(testMap.getField(x, y).getMachine().equals(null))
 		{
-			currentMaxBotID++;
-			bot = new Bot(currentMaxBotID, testMap.getField(x, y));
+//			currentMaxBotID++;
+//			bot = new Bot(currentMaxBotID, testMap.getField(x, y)); init a param?
 			testMachines.add(bot);
+			testMap.getField(x, y).addMachineToField(bot);
 		}
 	}
 	
@@ -102,19 +112,34 @@ public class Proto {
 	 */
 	private static void putCleanerBot(int x, int y, SmallBot smallBot)
 	{
-		buildMapFromFile(testMapName);
 		if(testMap.getField(x, y).getMachine().equals(null))
 		{
 			currentMaxSmallBotID++;
 			smallBot = new SmallBot(currentMaxSmallBotID, testMap.getField(x, y));
 			testMachines.add(smallBot);
+			Map.smallBots.add(smallBot);
+			testMap.getField(x, y).addMachineToField(smallBot);
+			
 		}
 	}	
 	
+	/**
+	 * If the given field exists, modify it, else, put a field to the given fields position
+	 * @param field The new field that is to be represented on the map
+	 */
 	private static void modifyMapWithField(Field field)
 	{
-		//TODO
+		if(testMap.getField(field.x, field.y) == null)
+		{
+			testMap.addField(field);
+		}
+		else
+		{
+			Map.fields.get(field.x).remove(field.y);
+			testMap.addField(field);
+		}
 	}
+	
 	/**
 	 * Makes jump all machines numberOfRounds times
 	 * @param numberOfRounds the number of the jumps
@@ -128,24 +153,32 @@ public class Proto {
 		}
 	}
 
-	//it is handled at higher level if there is no param given (in processCommand)
+	/**
+	 * It is handled at higher level if there is no param given (in processCommand)
+	 * @param ID
+	 * @return
+	 */
 	private static String getBotState(int ID)
 	{
 		Bot currentBot = (Bot) testMachines.get(ID);
-		return ("getBotState " + currentBot.isDirectable + " " + currentBot.getOilCoint() 
+		int isDir = (currentBot.isDirectable) ? 1 : 0;
+		return ("getBotState " + isDir + " " + currentBot.getOilCoint() 
 				+ " " + currentBot.getPuttyCount() + " " + ID + " " + currentBot.currentField.x
 				+ " " + currentBot.currentField.y);
 	}
 
+	/**
+	 * Iterates through the fields and gives back their x,y coordinates
+	 * @return x,y coordinates enumerated in a string 
+	 */
 	private static String getMap()
 	{
-		String tmp = new String();
-		for(int i=0; i<testMap.fields.size(); i++)
+		String tmp = new String("getMap ");
+		for(int i=0; i<Map.fields.size(); i++)
 		{
-			for(int j=0; j<testMap.fields.get(i).size(); j++)
+			for(int j=0; j<Map.fields.get(i).size(); j++)
 			{
-				tmp.concat(getField(i, j));
-				tmp.concat("\n");
+				tmp = tmp.concat(String.valueOf(i)).concat(" ").concat(String.valueOf(j)).concat(",");
 			}
 		}
 		return tmp;
@@ -153,7 +186,6 @@ public class Proto {
 	
 	private static String getField(int x, int y)
 	{
-		buildMapFromFile(testMapName);
 		String state;
 		Field current = testMap.getField(x, y);
 		if(current.getHasOil())
@@ -162,15 +194,68 @@ public class Proto {
 			state = "Putty";
 		else
 			state = "None";
-		return ("getField " + x + y + state);
+		String currentBotID = String.valueOf(current.getMachineID());
+		return ("getField " + currentBotID + String.valueOf(current.isValid) + state);
 	}
 	
+	/**
+	 * If it finds a Bot, concat to the front, if a CleanerBot concat to the end of the return string 
+	 * @return The ID-s of the bots and cleanerBots currently on the map
+	 */
 	private static String getBots() 
 	{
-		
-		return null;
+		String tmp = new String(String.valueOf(testMachines.get(0).getID()));//so there is always sg in tmp, we can concat before and after it
+		for(int i = 1; i < testMachines.size(); i++)
+		{
+			int id = testMachines.get(i).getID();
+			if (id > 19) 
+			{
+					tmp = tmp.concat(", ").concat(String.valueOf(id));
+			}
+			else
+			{
+				tmp = String.valueOf(id).concat(", ").concat(tmp);			
+			}
+		}
+		return tmp;
 	}
 	
+	
+	//helper methods
+	
+	private static Field makeField(String[] input)
+	{
+		if(input.length == 6) {
+			int x = Integer.parseInt(input[1]);
+			int y = Integer.parseInt(input[2]);
+			Field newField = new Field(x, y);
+			int currBotID = Integer.parseInt(input[3]);
+			for(int i = 0; i < testMachines.size(); i++)
+			{
+				if(testMachines.get(i).getID() == currBotID)
+				{
+					newField.addMachineToField(testMachines.get(i));
+					i = testMachines.size();
+				}
+			}
+			boolean isValid = Boolean.parseBoolean(input[4]);
+			newField.isValid = isValid;
+			switch(input[5]){
+			case "None":
+				break;
+			case "Oil":
+				newField.setObstacle(new Oil());
+				newField.setHasOil(true);
+				break;
+			case "Putty":
+				newField.setObstacle(new Putty());
+				newField.setHasPutty(true);
+				break;
+			}
+			return newField;
+		}
+		return null;
+	}
 	
 	//Test runner
 	
@@ -181,10 +266,15 @@ public class Proto {
 			//read all test files
 			while(inputIndex < inputFiles.length)
 			{
-				//clear file
-				protoStandardOutput = new OutputStreamWriter(new FileOutputStream(new File(testFolderPath + "\\output.txt")));
+				//clear output file
+				protoStandardOutput = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(testFolderPath + "\\output.txt"))));
 				protoStandardOutput.write(new String());
-				protoStandardOutput = new OutputStreamWriter(new FileOutputStream(new File(testFolderPath + "\\output.txt"), true));
+				protoStandardOutput.close();
+				protoStandardOutput = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(testFolderPath + "\\output.txt"), true)));
+				
+				//new map
+				buildMapFromFile(testFolderPath + testMapName);
+				
 				BufferedReader br =  new BufferedReader(new FileReader(testFolderPath + inputFiles[inputIndex]));
 				String inputLine = null;
 				//reading in the file doing the test and comparing the output
@@ -213,34 +303,67 @@ public class Proto {
 	
 	//get a line of command from the user and give it to processCommand
 	private static void runManualTests() {
-		//TODO
+		buildMapFromFile(testFolderPath + testMapName);//default map
+		protoStandardOutput = new BufferedWriter(new OutputStreamWriter(System.out));
+		try {
+			protoStandardOutput.write("Waiting for input\n");
+			protoStandardOutput.flush();
+			BufferedReader br =  new BufferedReader(new InputStreamReader(System.in));
+			String command = null;
+			while((command = br.readLine()) != null) {
+				processCommand(command);
+				protoStandardOutput.write("Waiting for input\n");
+				protoStandardOutput.flush();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	//to be use from manual and automatic testrunning as well
-	//starts the corresponding methods with proper input
-	//getter command must write on protoStandartOutput
+	/**To be use from manual and automatic testrunning as well
+	 *Starts the corresponding methods with proper input
+	 *Getter command must write on protoStandartOutput
+	 * 
+	 * @param command The command to be processed
+	 * @throws NumberFormatException
+	 * @throws IOException
+	 */
 	private static void processCommand(String command) throws NumberFormatException, IOException
 	{
 		String[] input = command.split(" ");
 		switch(input[0])
 		{
 		case "jump":
-			jump(playerBot);
+			jump();
 			break;
+			
 		case "changeSpeed":
-			int x = Integer.parseInt(input[1]);
-			int y = Integer.parseInt(input[2]);
-			if( (x >= 0) && (y >= 0) ) {//arraylist cannot recieve negative index
-				changeSpeed(playerBot, x, y);
+			if(input.length == 3) {
+				int x = Integer.parseInt(input[1]);
+				int y = Integer.parseInt(input[2]);
+				if( (x >= 0) && (y >= 0) ) {//arraylist cannot recieve negative index
+					changeSpeed(playerBot, x, y);
+				}
 			}
 			break;
+			
 		case "putOil":
-			if((Integer.parseInt(input[1])) >=0 && (Integer.parseInt(input[2])) >= 0)
-				putOil(Integer.parseInt(input[1]), Integer.parseInt(input[2]));
+			if(input.length == 3) {
+				if((Integer.parseInt(input[1])) >= 0 && (Integer.parseInt(input[2])) >= 0)
+					putOil(Integer.parseInt(input[1]), Integer.parseInt(input[2]));
+			}
+			else {
+				playerBot.putOil();
+			}
 			break;
+
 		case "putPutty":
-			putPutty(Integer.parseInt(input[1]), Integer.parseInt(input[2]));
+			if(input.length == 3)
+				putPutty(Integer.parseInt(input[1]), Integer.parseInt(input[2]));
+			else
+				playerBot.putPutty();
 			break;
+			
 		case "getBotState":
 			if(input.length  == 2){
 				protoStandardOutput.write( getBotState(Integer.parseInt(input[1])) );
@@ -248,36 +371,70 @@ public class Proto {
 				protoStandardOutput.write( getBotState(playerBot.ID) );
 			}
 			protoStandardOutput.write(System.getProperty("line.separator"));//!
-
 			break;
+			
 		case "setBotState":
-
+			if(input.length == 4)
+			{
+				setBotState(Boolean.parseBoolean(input[1]), Integer.parseInt(input[2]), Integer.parseInt(input[3]));
+			}
 			break;
+			
 		case "putBot":
-			putBot(Integer.parseInt(input[1]), Integer.parseInt(input[2]), new Bot(currentMaxBotID++, 
-					new Field(Integer.parseInt(input[1]), Integer.parseInt(input[2]))));
+			if(input.length == 3) {
+				int x1 = Integer.parseInt(input[1]);
+				int y1 = Integer.parseInt(input[2]);
+				putBot(x1, y1, new Bot(currentMaxBotID++, testMap.getField(x1, y1)));
+			}
 			break;
+			
 		case "putCleanerBot":
-			putCleanerBot(Integer.parseInt(input[1]), Integer.parseInt(input[2]), new SmallBot(currentMaxSmallBotID++,
-					new Field(Integer.parseInt(input[1]), Integer.parseInt(input[2]))));
+			putCleanerBot(Integer.parseInt(input[1]), Integer.parseInt(input[2]), new SmallBot(currentMaxSmallBotID++, 
+					testMap.getField(Integer.parseInt(input[1]), Integer.parseInt(input[2]))));
 			break;
+			
 		case "modifyMapWithField":
-
+			Field newField = makeField(input);
+			if(newField != null) {
+				modifyMapWithField(newField);
+			}
 			break;
+			
 		case "advanceTime":
-
+			if(input.length == 2) {
+				advanceTime(Integer.parseInt(input[1]));
+			}
 			break;
+			
 		case "getMap":
 			protoStandardOutput.write(getMap());
+			protoStandardOutput.write(System.getProperty("line.separator"));
 			break;
+			
 		case "getField":
 			protoStandardOutput.write(getField(Integer.parseInt(input[1]), Integer.parseInt(input[2])));
+			protoStandardOutput.write(System.getProperty("line.separator"));
 			break;
+			
 		case "getBots":
-
+			protoStandardOutput.write(getBots());
+			protoStandardOutput.write(System.getProperty("line.separator"));
 			break;
+			
 		case "acquireBot":
-
+			if(input.length == 2)
+			{
+				int ID = Integer.parseInt(input[1]);
+				if(ID < 20){
+					for(int i = 0; i < testMachines.size(); i++)
+					{
+						if(testMachines.get(i).getID() == ID)
+						{
+							playerBot =(Bot) testMachines.get(i);
+						}
+					}
+				}
+			}
 			break;
 		}
 	}
@@ -294,6 +451,7 @@ public class Proto {
 			{
 				if(!outputReader.readLine().equals(line)) {
 					System.out.println(awaitedOutputFileName.substring(1) + " is not identical to the output.txt's content");
+					System.out.println("The problem occured at line: " + line);
 					awaitedReader.close();
 					outputReader.close();
 					return false;
@@ -302,8 +460,7 @@ public class Proto {
 			
 			awaitedReader.close();
 			outputReader.close();
-			System.out.println(awaitedOutputFileName.substring(1) + "is identical to the output, success");
-			System.out.println("The problem occured at line: " + line);
+			System.out.println(awaitedOutputFileName.substring(1) + " is identical to the output, success");
 			return true;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -319,6 +476,12 @@ public class Proto {
 		//building map
 		BufferedReader br;
 		testMap = Map.getInstance();
+		Map.fields = new ArrayList<ArrayList<Field>>();
+		//teardown
+		playerBot = null;
+		testMachines = new ArrayList<Machine>(); 
+		currentMaxBotID = 0;
+		currentMaxSmallBotID = 20;
 		try {
 			br = new BufferedReader(new FileReader(filePath));
 
@@ -355,7 +518,6 @@ public class Proto {
 
 	public static void main(String[] args) {
 		try{
-			buildMapFromFile(testFolderPath + testMapName);
 			//user interaction
 			System.out.println("Would you prefer automated or manual test run?\na:Automated\nb:Manual");
 			BufferedReader br =  new BufferedReader(new InputStreamReader(System.in));
@@ -364,7 +526,7 @@ public class Proto {
 				switch(input.charAt(0))
 				{
 				case 'a':
-					runAutomatedTests();
+					runAutomatedTests(); //runs until the end of inputFiles, or the first negative test
 					break;
 				case 'b':
 					runManualTests();

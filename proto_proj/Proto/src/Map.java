@@ -5,6 +5,7 @@ public final class Map {
 
 	public static ArrayList<ArrayList<Field>> fields;
 	private static Map instance = null;
+	public static ArrayList<SmallBot>smallBots;
 	
 	private Map(){
 		fields = new ArrayList<ArrayList<Field>>();
@@ -14,6 +15,7 @@ public final class Map {
 			for (int j=0; j < 25;j++)
 				fields.get(i).add(new Field(i, j));
 		}*/
+		smallBots = new ArrayList<SmallBot>();
 		
 	}
 	

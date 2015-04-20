@@ -28,6 +28,7 @@ public class Field {
 //		putty = null;
 		hasOil = false;
 		hasPutty = false;
+		obstacle = null;
 	//	Skeleton.showInfo("Function ended: Field()");
 	}
 
@@ -180,7 +181,7 @@ public class Field {
 	 * @return the ID of the machine, that is on the field
 	 */
 	public int getMachineID(){
-		return currentMachine.getID();
+		return (currentMachine == null) ? -1 : currentMachine.getID();
 	}
 	
 	/**

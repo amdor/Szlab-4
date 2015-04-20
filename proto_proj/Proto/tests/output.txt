@@ -1,3 +1,0 @@
-getBotState true 3 3 0 0 0
-getBotState true 3 3 0 3 1
-getBotState true 3 3 0 3 1

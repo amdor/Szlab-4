@@ -11,8 +11,8 @@ public class DirectVector {
 	 * Initializer to be used
 	 */
 	public DirectVector(){
-		right = 0;
-		up = 0;
+		right = 1;
+		up = 1;
 	}
 	
 	/**

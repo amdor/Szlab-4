@@ -2,8 +2,8 @@ import java.lang.Math;
 
 public class Bot extends Machine {
 	public boolean isDirectable;
-	private int oilCount;
-	private int puttyCount;
+	public int oilCount;//public only for proto testing
+	public int puttyCount;//public only for proto testing
 
 	/**
 	 * Initializer to be used 
@@ -93,18 +93,37 @@ public class Bot extends Machine {
 			{
 				Bot b = (Bot) currentField.getMachine();
 				b.averageVector(this);
-				// TODO Kill this Bot!!!!!!!! KILLLL
+				//killing this
+				this.changeSpeedVector(0, 0);
+				this.isDirectable = false;
+				this.currentField = null;
+				this.puttyCount = 0;
+				this.oilCount = 0;//dead
 			}
 			else
 			{
-				this.averageVector((Bot) currentField.getMachine());
-				// TODO KILL THE OTHER BOT
+//				this.averageVector((Bot) currentField.getMachine());
+				// kill the other bot
+				Bot otherBot = (Bot)currentField.getMachine();
+				currentField.removeMachineFromField();
+				otherBot.collision();//since its currentField is still THE currentField
 			}
 		}
 		else if(currentField.getMachineID() > 19)
 		{
 			currentField.setObstacle(new Oil());
-			// TODO KILL THE SMALLBOT
+			// kill smallBot
+			int smallID = currentField.getMachineID();
+			currentField.removeMachineFromField();
+			for(int i = 0; i < Map.smallBots.size(); i++)
+			{
+				if(Map.smallBots.get(i).ID == smallID)
+				{
+					Map.smallBots.remove(i);
+					i = Map.smallBots.size() + 1;
+				}
+			}
+			
 		}
 	}
 
