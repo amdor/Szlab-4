@@ -1,0 +1,23 @@
+import java.awt.BorderLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+
+public class MapFrame extends JFrame {
+	public MapPanel mapPanel;
+	
+	public MapFrame()
+	{
+		super("Game");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(600, 400);
+		setResizable(false);
+        mapPanel = new MapPanel();
+        setLayout(new BorderLayout());
+        add(mapPanel);
+        pack();
+        setVisible(true);		
+	}
+	
+}

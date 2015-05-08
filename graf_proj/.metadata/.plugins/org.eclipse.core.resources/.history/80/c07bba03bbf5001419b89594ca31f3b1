@@ -1,0 +1,27 @@
+import java.awt.BorderLayout;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+
+public class MapFrame extends JFrame {
+	public MapPanel mapPanel;
+	
+	public MapFrame()
+	{
+		super("Game");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(600, 400);
+		setResizable(false);
+        mapPanel = new MapPanel();
+        setLayout(new BorderLayout(0,5));
+        add(mapPanel, BorderLayout.NORTH);
+        JButton jump = new JButton("Jump");
+        jump.setSize(20, 50);
+        add(jump, BorderLayout.CENTER);
+        pack();
+        setVisible(true);		
+	}
+	
+}

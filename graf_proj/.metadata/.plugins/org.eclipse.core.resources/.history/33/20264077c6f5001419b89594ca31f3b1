@@ -1,0 +1,546 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+
+
+public class Proto {
+//	private static InputStream protoStandardInput;
+	private static BufferedWriter protoStandardOutput;//i.e.:protoStandardOutput = new OutputStreamWriter(System.out);
+	private static int currentMaxBotID = 0;
+	private static int currentMaxSmallBotID = 20;
+	
+	private static String testFolderPath = System.getProperty("user.dir") + "\\tests";
+	private static String testMapName = "\\map.txt";
+	
+	private static String[] inputFiles = {"\\change_speed.txt", "\\change_speed_output.txt",
+		"\\jump.txt", "\\jump_output.txt"};
+	
+	private static Map testMap;
+	private static ArrayList<Machine> testMachines = new ArrayList<Machine>();
+	private static Bot playerBot;
+	
+	
+	/**
+	 * Makes a jump call by calling advanceTime
+	 */
+	private static void jump()
+	{
+		advanceTime(1);
+	}
+	
+	
+	//Proto interface methods
+	
+	/**
+	 * Changes the robo's speed vector. Yet does nothing else.
+	 * @param robo the Bot for which we change speed
+	 * @param x the first value of the vector of speed
+	 * @param y the second value of the speedvector
+	 */
+	private static void changeSpeed(Bot robo, int x, int y)
+	{
+		robo.changeSpeedVector(x, y);
+	}
+	
+	//it is handled at higher level if there is no param given (in processCommand)
+	/**
+	 * Puts down an oil on the field, which is given with x and y
+	 * @param x the horizontal coordinate of the field, where the oil will be put
+	 * @param y the vertical coordinate of the field, where the oil will be put
+	 */
+	private static void putOil(int x, int y)
+	{
+		Map.fields.get(x).get(y).setObstacle(new Oil());
+	}
+	
+	//it is handled at higher level if there is no param given (in processCommand)
+	/**
+	 * Puts down a putty on the field, which is given with x and y
+	 * @param x the horizontal coordinate of the field, where the oil will be put
+	 * @param y the vertical coordinate of the field, where the oil will be put
+	 */
+	private static void putPutty(int x, int y)
+	{
+		Map.fields.get(x).get(y).setObstacle(new Putty());
+	}
+	
+	
+	/**
+	 * Sets playerBot's parameters
+	 * @param isDir
+	 * @param oilCount
+	 * @param puttyCount
+	 */
+	private static void setBotState(boolean isDir, int oilCount, int puttyCount) 
+	{
+		playerBot.isDirectable = isDir;
+		playerBot.oilCount = oilCount;
+		playerBot.puttyCount = puttyCount;
+	}
+	
+	/**
+	 * Puts a robot on the field given with its coordinates
+	 * @param x the horizontal coordinate of the field
+	 * @param y the vertical coordinate of the field
+	 * @param bot the bot that will be put on the field
+	 */
+	private static void putBot(int x, int y, Bot bot) 
+	{
+		if(testMap.getField(x, y).getMachine().equals(null))
+		{
+//			currentMaxBotID++;
+//			bot = new Bot(currentMaxBotID, testMap.getField(x, y)); init a param?
+			testMachines.add(bot);
+			testMap.getField(x, y).addMachineToField(bot);
+		}
+	}
+	
+	/**
+	 * Puts a Small robot on the field given with its coordinates
+	 * @param x the horizontal coordinate of the field
+	 * @param y the vertical coordinate of the field
+	 * @param smallbot the smallbot that will be put on the field
+	 */
+	private static void putCleanerBot(int x, int y, SmallBot smallBot)
+	{
+		if(testMap.getField(x, y).getMachine().equals(null))
+		{
+			currentMaxSmallBotID++;
+			smallBot = new SmallBot(currentMaxSmallBotID, testMap.getField(x, y));
+			testMachines.add(smallBot);
+			Map.smallBots.add(smallBot);
+			testMap.getField(x, y).addMachineToField(smallBot);
+			
+		}
+	}	
+	
+	/**
+	 * If the given field exists, modify it, else, put a field to the given fields position
+	 * @param field The new field that is to be represented on the map
+	 */
+	private static void modifyMapWithField(Field field)
+	{
+		if(testMap.getField(field.x, field.y) == null)
+		{
+			testMap.addField(field);
+		}
+		else
+		{
+			Map.fields.get(field.x).remove(field.y);
+			testMap.addField(field);
+		}
+	}
+	
+	/**
+	 * Makes jump all machines numberOfRounds times
+	 * @param numberOfRounds the number of the jumps
+	 */
+	private static void advanceTime(int numberOfRounds)
+	{
+		for(int i=0;i<numberOfRounds;i++)
+		{
+			for(int j=0;j<testMachines.size();j++)
+				testMachines.get(j).jump();
+		}
+	}
+
+	/**
+	 * It is handled at higher level if there is no param given (in processCommand)
+	 * @param ID
+	 * @return
+	 */
+	private static String getBotState(int ID)
+	{
+		Bot currentBot = (Bot) testMachines.get(ID);
+		int isDir = (currentBot.isDirectable) ? 1 : 0;
+		return ("getBotState " + isDir + " " + currentBot.getOilCoint() 
+				+ " " + currentBot.getPuttyCount() + " " + ID + " " + currentBot.currentField.x
+				+ " " + currentBot.currentField.y);
+	}
+
+	/**
+	 * Iterates through the fields and gives back their x,y coordinates
+	 * @return x,y coordinates enumerated in a string 
+	 */
+	private static String getMap()
+	{
+		String tmp = new String("getMap ");
+		for(int i=0; i<Map.fields.size(); i++)
+		{
+			for(int j=0; j<Map.fields.get(i).size(); j++)
+			{
+				tmp = tmp.concat(String.valueOf(i)).concat(" ").concat(String.valueOf(j)).concat(",");
+			}
+		}
+		return tmp;
+	}
+	
+	private static String getField(int x, int y)
+	{
+		String state;
+		Field current = testMap.getField(x, y);
+		if(current.getHasOil())
+			state = "Oil";
+		else if(current.getHasPutty())
+			state = "Putty";
+		else
+			state = "None";
+		String currentBotID = String.valueOf(current.getMachineID());
+		return ("getField " + currentBotID + String.valueOf(current.isValid) + state);
+	}
+	
+	/**
+	 * If it finds a Bot, concat to the front, if a CleanerBot concat to the end of the return string 
+	 * @return The ID-s of the bots and cleanerBots currently on the map
+	 */
+	private static String getBots() 
+	{
+		String tmp = new String(String.valueOf(testMachines.get(0).getID()));//so there is always sg in tmp, we can concat before and after it
+		for(int i = 1; i < testMachines.size(); i++)
+		{
+			int id = testMachines.get(i).getID();
+			if (id > 19) 
+			{
+					tmp = tmp.concat(", ").concat(String.valueOf(id));
+			}
+			else
+			{
+				tmp = String.valueOf(id).concat(", ").concat(tmp);			
+			}
+		}
+		return tmp;
+	}
+	
+	
+	//helper methods
+	
+	private static Field makeField(String[] input)
+	{
+		if(input.length == 6) {
+			int x = Integer.parseInt(input[1]);
+			int y = Integer.parseInt(input[2]);
+			Field newField = new Field(x, y);
+			int currBotID = Integer.parseInt(input[3]);
+			for(int i = 0; i < testMachines.size(); i++)
+			{
+				if(testMachines.get(i).getID() == currBotID)
+				{
+					newField.addMachineToField(testMachines.get(i));
+					i = testMachines.size();
+				}
+			}
+			boolean isValid = Boolean.parseBoolean(input[4]);
+			newField.isValid = isValid;
+			switch(input[5]){
+			case "None":
+				break;
+			case "Oil":
+				newField.setObstacle(new Oil());
+				newField.setHasOil(true);
+				break;
+			case "Putty":
+				newField.setObstacle(new Putty());
+				newField.setHasPutty(true);
+				break;
+			}
+			return newField;
+		}
+		return null;
+	}
+	
+	//Test runner
+	
+	private static void runAutomatedTests() {
+		try {
+			
+			int inputIndex = 0;
+			//read all test files
+			while(inputIndex < inputFiles.length)
+			{
+				//clear output file
+				protoStandardOutput = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(testFolderPath + "\\output.txt"))));
+				protoStandardOutput.write(new String());
+				protoStandardOutput.close();
+				protoStandardOutput = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(testFolderPath + "\\output.txt"), true)));
+				
+				//new map
+				buildMapFromFile(testFolderPath + testMapName);
+				
+				BufferedReader br =  new BufferedReader(new FileReader(testFolderPath + inputFiles[inputIndex]));
+				String inputLine = null;
+				//reading in the file doing the test and comparing the output
+				while((inputLine = br.readLine()) != null)
+				{
+					processCommand(inputLine);
+				}
+				
+				//tearDown
+				br.close();
+				protoStandardOutput.close();
+				if(!validateOutput(inputFiles[inputIndex+1]))
+				{
+					return;//failed					
+				}
+				inputIndex += 2;
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	//get a line of command from the user and give it to processCommand
+	private static void runManualTests() {
+		buildMapFromFile(testFolderPath + testMapName);//default map
+		protoStandardOutput = new BufferedWriter(new OutputStreamWriter(System.out));
+		try {
+			protoStandardOutput.write("Waiting for input\n");
+			protoStandardOutput.flush();
+			BufferedReader br =  new BufferedReader(new InputStreamReader(System.in));
+			String command = null;
+			while((command = br.readLine()) != null) {
+				processCommand(command);
+				protoStandardOutput.write("Waiting for input\n");
+				protoStandardOutput.flush();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**To be use from manual and automatic testrunning as well
+	 *Starts the corresponding methods with proper input
+	 *Getter command must write on protoStandartOutput
+	 * 
+	 * @param command The command to be processed
+	 * @throws NumberFormatException
+	 * @throws IOException
+	 */
+	private static void processCommand(String command) throws NumberFormatException, IOException
+	{
+		String[] input = command.split(" ");
+		switch(input[0])
+		{
+		case "jump":
+			jump();
+			break;
+			
+		case "changeSpeed":
+			if(input.length == 3) {
+				int x = Integer.parseInt(input[1]);
+				int y = Integer.parseInt(input[2]);
+				if( (x >= 0) && (y >= 0) ) {//arraylist cannot recieve negative index
+					changeSpeed(playerBot, x, y);
+				}
+			}
+			break;
+			
+		case "putOil":
+			if(input.length == 3) {
+				if((Integer.parseInt(input[1])) >= 0 && (Integer.parseInt(input[2])) >= 0)
+					putOil(Integer.parseInt(input[1]), Integer.parseInt(input[2]));
+			}
+			else {
+				playerBot.putOil();
+			}
+			break;
+
+		case "putPutty":
+			if(input.length == 3)
+				putPutty(Integer.parseInt(input[1]), Integer.parseInt(input[2]));
+			else
+				playerBot.putPutty();
+			break;
+			
+		case "getBotState":
+			if(input.length  == 2){
+				protoStandardOutput.write( getBotState(Integer.parseInt(input[1])) );
+			}else {
+				protoStandardOutput.write( getBotState(playerBot.ID) );
+			}
+			protoStandardOutput.write(System.getProperty("line.separator"));//!
+			break;
+			
+		case "setBotState":
+			if(input.length == 4)
+			{
+				setBotState(Boolean.parseBoolean(input[1]), Integer.parseInt(input[2]), Integer.parseInt(input[3]));
+			}
+			break;
+			
+		case "putBot":
+			if(input.length == 3) {
+				int x1 = Integer.parseInt(input[1]);
+				int y1 = Integer.parseInt(input[2]);
+				putBot(x1, y1, new Bot(currentMaxBotID++, testMap.getField(x1, y1)));
+			}
+			break;
+			
+		case "putCleanerBot":
+			putCleanerBot(Integer.parseInt(input[1]), Integer.parseInt(input[2]), new SmallBot(currentMaxSmallBotID++, 
+					testMap.getField(Integer.parseInt(input[1]), Integer.parseInt(input[2]))));
+			break;
+			
+		case "modifyMapWithField":
+			Field newField = makeField(input);
+			if(newField != null) {
+				modifyMapWithField(newField);
+			}
+			break;
+			
+		case "advanceTime":
+			if(input.length == 2) {
+				advanceTime(Integer.parseInt(input[1]));
+			}
+			break;
+			
+		case "getMap":
+			protoStandardOutput.write(getMap());
+			protoStandardOutput.write(System.getProperty("line.separator"));
+			break;
+			
+		case "getField":
+			protoStandardOutput.write(getField(Integer.parseInt(input[1]), Integer.parseInt(input[2])));
+			protoStandardOutput.write(System.getProperty("line.separator"));
+			break;
+			
+		case "getBots":
+			protoStandardOutput.write(getBots());
+			protoStandardOutput.write(System.getProperty("line.separator"));
+			break;
+			
+		case "acquireBot":
+			if(input.length == 2)
+			{
+				int ID = Integer.parseInt(input[1]);
+				if(ID < 20){
+					for(int i = 0; i < testMachines.size(); i++)
+					{
+						if(testMachines.get(i).getID() == ID)
+						{
+							playerBot =(Bot) testMachines.get(i);
+						}
+					}
+				}
+			}
+			break;
+		}
+	}
+	
+	//prints successs if the to files are identical
+	private static boolean validateOutput(String awaitedOutputFileName) 
+	{
+		try {
+			BufferedReader awaitedReader = new BufferedReader(new FileReader(testFolderPath + awaitedOutputFileName));
+			BufferedReader outputReader = new BufferedReader(new FileReader(testFolderPath + "\\output.txt"));
+			
+			String line = null;
+			while( (line = awaitedReader.readLine()) != null)
+			{
+				if(!outputReader.readLine().equals(line)) {
+					System.out.println(awaitedOutputFileName.substring(1) + " is not identical to the output.txt's content");
+					System.out.println("The problem occured at line: " + line);
+					awaitedReader.close();
+					outputReader.close();
+					return false;
+				}
+			}
+			
+			awaitedReader.close();
+			outputReader.close();
+			System.out.println(awaitedOutputFileName.substring(1) + " is identical to the output, success");
+			return true;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
+		return false;
+	}
+	
+	
+	//builds the map from the content of the given file
+	private static void buildMapFromFile(String filePath) {
+		//building map
+		BufferedReader br;
+		testMap = Map.getInstance();
+		Map.fields = new ArrayList<ArrayList<Field>>();
+		//teardown
+		playerBot = null;
+		testMachines = new ArrayList<Machine>(); 
+		currentMaxBotID = 0;
+		currentMaxSmallBotID = 20;
+		try {
+			br = new BufferedReader(new FileReader(filePath));
+
+			String inputLine = null;
+			while((inputLine = br.readLine()) != null)
+			{
+				String[] fieldData = inputLine.split(" ");//0:hasBot, 1:isValid, 2:x, 3:y
+				boolean hasBot = Integer.parseInt(fieldData[0]) == 1;
+				boolean isValid = Integer.parseInt(fieldData[1]) == 1;
+				Field newField = new Field(Integer.parseInt(fieldData[2]), Integer.parseInt(fieldData[3]));
+				if(hasBot)
+				{
+					if(currentMaxBotID < 20) {//so at 19 it runs
+						Bot newBot = new Bot(currentMaxBotID, newField);//also adds bot to the field
+						if(currentMaxBotID == 0){
+							playerBot = newBot; //the initial bot of the user
+						}
+						testMachines.add(newBot);
+						currentMaxBotID++;
+					}
+				}
+				if(!isValid) {//initially valid...
+					newField.isValid = false;
+				}
+				testMap.addField(newField);			
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args) {
+//		try{
+//			//user interaction
+//			System.out.println("Would you prefer automated or manual test run?\na:Automated\nb:Manual");
+//			BufferedReader br =  new BufferedReader(new InputStreamReader(System.in));
+//			String input = null;
+//			if((input = br.readLine())!=null){
+//				switch(input.charAt(0))
+//				{
+//				case 'a':
+//					runAutomatedTests(); //runs until the end of inputFiles, or the first negative test
+//					break;
+//				case 'b':
+//					runManualTests();
+//					break;
+//				}
+//			}
+//			br.close();
+//
+//		}catch(IOException io){
+//			io.printStackTrace();
+//		}
+		
+		MapFrame mapFrame = new MapFrame();
+		
+	}
+
+}

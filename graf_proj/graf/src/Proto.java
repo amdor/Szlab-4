@@ -1,3 +1,4 @@
+import java.awt.EventQueue;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -517,27 +518,36 @@ public class Proto {
 	}
 
 	public static void main(String[] args) {
-		try{
-			//user interaction
-			System.out.println("Would you prefer automated or manual test run?\na:Automated\nb:Manual");
-			BufferedReader br =  new BufferedReader(new InputStreamReader(System.in));
-			String input = null;
-			if((input = br.readLine())!=null){
-				switch(input.charAt(0))
-				{
-				case 'a':
-					runAutomatedTests(); //runs until the end of inputFiles, or the first negative test
-					break;
-				case 'b':
-					runManualTests();
-					break;
-				}
-			}
-			br.close();
-
-		}catch(IOException io){
-			io.printStackTrace();
-		}
+//		try{
+//			//user interaction
+//			System.out.println("Would you prefer automated or manual test run?\na:Automated\nb:Manual");
+//			BufferedReader br =  new BufferedReader(new InputStreamReader(System.in));
+//			String input = null;
+//			if((input = br.readLine())!=null){
+//				switch(input.charAt(0))
+//				{
+//				case 'a':
+//					runAutomatedTests(); //runs until the end of inputFiles, or the first negative test
+//					break;
+//				case 'b':
+//					runManualTests();
+//					break;
+//				}
+//			}
+//			br.close();
+//
+//		}catch(IOException io){
+//			io.printStackTrace();
+//		}
+		
+		 EventQueue.invokeLater(new Runnable()
+		  {
+		       public void run()
+		       {
+		           new MapFrame();
+		       }
+		  });
+		
 	}
 
 }

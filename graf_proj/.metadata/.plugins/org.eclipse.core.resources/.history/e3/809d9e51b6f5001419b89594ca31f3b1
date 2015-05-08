@@ -1,0 +1,17 @@
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+
+public class MapFrame extends JFrame {
+	public MapPanel mapPanel;
+	
+	public MapFrame()
+	{
+		super("Game");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mapPanel = new MapPanel();
+        pack();
+        setVisible(true);		
+	}
+	
+}
