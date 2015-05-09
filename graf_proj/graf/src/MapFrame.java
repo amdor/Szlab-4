@@ -100,10 +100,21 @@ public class MapFrame extends JFrame implements ActionListener {
 		}
 		else if(e.getActionCommand().equals("Putputty")){
 			System.out.println(3);
+			Map.fields.get(bots.get(activeBotIndex).currentField.x).get(bots.get(activeBotIndex).currentField.y).
+				setObstacle(new Putty());
+			Map.fields.get(bots.get(activeBotIndex).currentField.x).get(bots.get(activeBotIndex).currentField.y)
+	.			setHasPutty(true);
+			bots.get(activeBotIndex).puttyCount -= 1;
 			
 		}	
 		else if(e.getActionCommand().equals("Put Oil")){
 			System.out.println(2);
+			Map.fields.get(bots.get(activeBotIndex).currentField.x).get(bots.get(activeBotIndex).currentField.y).
+				setObstacle(new Oil());
+			Map.fields.get(bots.get(activeBotIndex).currentField.x).get(bots.get(activeBotIndex).currentField.y)
+		.		setHasOil(true);
+			bots.get(activeBotIndex).oilCount -= 1;
+			
 		}
 	}
 	
