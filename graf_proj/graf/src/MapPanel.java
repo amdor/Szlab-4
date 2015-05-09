@@ -37,6 +37,7 @@ public class MapPanel extends JPanel {
 	
 	private ArrayList<Rectangle> cells = new ArrayList<>(rowCount * columnCount);
 	public BufferedImage wallE;
+	public BufferedImage wallF;
 
 //	private DirectVector[] botsPosition;
 	ArrayList<Bot> bots;
@@ -48,6 +49,7 @@ public class MapPanel extends JPanel {
 		setSize(600, 300);
 		try {
 			wallE = ImageIO.read(new File("src\\walle.png"));
+			wallF = ImageIO.read(new File("src\\walle.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -112,6 +114,10 @@ public class MapPanel extends JPanel {
 		for(int i = 0; i < bots.size(); i++) {
 			drawWallE(g, bots.get(i).currentField.x, bots.get(i).currentField.y);
 		}
+		
+		for(int i=0;i<Map.smallBots.size();i++){
+			drawWallF(g,Map.smallBots.get(i).currentField.x,Map.smallBots.get(i).currentField.y);
+		}
 
 		rectGraphics.dispose();
 	}
@@ -123,6 +129,9 @@ public class MapPanel extends JPanel {
 	 * @param y The y coordinate of the bot
 	 */
 	private void drawWallE(Graphics g, int x, int y) {
+		g.drawImage(wallE, xOffset + (x * cellWidth)+1, yOffset + (y * cellHeight)+1, null);//+1 is magic number
+	}
+		private void drawWallF(Graphics g, int x, int y) {
 		g.drawImage(wallE, xOffset + (x * cellWidth)+1, yOffset + (y * cellHeight)+1, null);//+1 is magic number
 	}
 	

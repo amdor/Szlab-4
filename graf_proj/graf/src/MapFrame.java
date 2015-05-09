@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 
 public class MapFrame extends JFrame implements ActionListener {
@@ -46,10 +48,27 @@ public class MapFrame extends JFrame implements ActionListener {
         JButton jumpButton = new JButton("Jump");
         jumpButton.setActionCommand("Jump");
         jumpButton.addActionListener(this);
-        buttonPanel.add(jumpButton);
-        JButton putPuttyButton = new JButton("Put putty");
+        
+		JButton putPuttyButton = new JButton("Put putty");
+        putPuttyButton.setActionCommand("Putputty");
+        putPuttyButton.addActionListener(this);
         buttonPanel.add(putPuttyButton);
         
+        JButton putOilButton = new JButton("Put Oil");
+        putOilButton.setActionCommand("Put Oil");
+        putOilButton.addActionListener(this);
+        buttonPanel.add(putOilButton);
+        
+    	SpinnerNumberModel model1 = new SpinnerNumberModel(0, -1, 1, 1);
+    	SpinnerNumberModel model2 = new SpinnerNumberModel(0, -1, 1, 1);
+        JSpinner dx=new JSpinner(model1);
+        JSpinner dy=new JSpinner(model2);
+        buttonPanel.add(dx);
+        buttonPanel.add(dy);
+        
+		
+		
+		
         add(buttonPanel, BorderLayout.CENTER);
         pack();
         setVisible(true);		
@@ -77,6 +96,13 @@ public class MapFrame extends JFrame implements ActionListener {
 			}
 			mapPanel.setActiveBotIndex(activeBotIndex);
 			mapPanel.repaint();
+		}
+		else if(e.getActionCommand().equals("Putputty")){
+			System.out.println(3);
+			
+		}	
+		else if(e.getActionCommand().equals("Put Oil")){
+			System.out.println(2);
 		}
 	}
 	
