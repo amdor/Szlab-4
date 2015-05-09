@@ -1,0 +1,151 @@
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.Stroke;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+
+/**
+ * This class is responsible for the drawing of the map and its element.
+ * Strongly depends on the Map
+ * Also has to know about the other components that needs to be drawn
+ */
+@SuppressWarnings("serial")
+public class MapPanel extends JPanel {
+	private static int width = 600;
+	private static int height = 300;
+	private int rowCount = 8;
+	private int columnCount = 16;
+	private int cellWidth = width / columnCount;
+	private int cellHeight = height / rowCount;
+	private int xOffset = (width - (columnCount * cellWidth)) / 2;//if the grid is not the same size as the panel, this posiotions it to the center
+	private int yOffset = (height - (rowCount * cellHeight)) / 2;
+	
+	private ArrayList<Rectangle> cells = new ArrayList<>(rowCount * columnCount);
+	public BufferedImage wallE;
+
+	private DirectVector[] botsPosition;
+	public int activeBotIndex;
+	
+	public MapPanel() 
+	{
+		//TODO other needed staff here?
+		setSize(600, 300);
+		try {
+			wallE = ImageIO.read(new File("src\\walle.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		activeBotIndex = 0;
+	}
+
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension(width, height);
+	}
+
+	@Override
+	public void invalidate() {
+		//        cells.clear();
+		super.invalidate();
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D rectGraphics = (Graphics2D) g.create();
+
+
+		if (cells.isEmpty()) {
+			for (int row = 0; row < rowCount; row++) {
+				for (int col = 0; col < columnCount; col++) {
+					int currentWidth = xOffset + (col * cellWidth);
+					int currentHeight = yOffset + (row * cellHeight);
+					Rectangle cell = new Rectangle(
+							currentWidth,
+							currentHeight,
+							cellWidth,
+							cellHeight);
+					cells.add(cell);
+				}
+			}
+		}
+
+		rectGraphics.setColor(Color.GRAY);
+		int activeBotCellIndex = botsPosition[activeBotIndex].up * columnCount + botsPosition[activeBotIndex].right;
+		for (int i = 0; i < cells.size(); i++) {
+			if(i == activeBotCellIndex)
+			{
+				float thickness = 5;
+				Stroke oldStroke = rectGraphics.getStroke();
+				rectGraphics.setStroke(new BasicStroke(thickness));
+				rectGraphics.draw(cells.get(i));
+				rectGraphics.setStroke(oldStroke);
+			}
+			else
+			{
+				rectGraphics.draw(cells.get(i));
+			}
+
+		}
+//		g.drawImage(wallE, xOffset + (8 * cellWidth)+1, yOffset + (6 * cellHeight)+1, null);
+		drawWallE(g, 8, 6);
+
+		rectGraphics.dispose();
+	}
+	
+	/**
+	 * Draws the bot to the given position
+	 * @param g The graphics object for drawing
+	 * @param x The x coordinate of the bot
+	 * @param y The y coordinate of the bot
+	 */
+	private void drawWallE(Graphics g, int x, int y) {
+		g.drawImage(wallE, xOffset + (x * cellWidth)+1, yOffset + (y * cellHeight)+1, null);//+1 is magic number
+	}
+	
+	public void setActiveBot(int count) {
+		if(count == 0)
+		{
+			activeBotIndex = 0;
+		}
+		if(count > botsPosition.length - 1)
+		{
+			activeBotIndex = 0;
+		}
+		else
+		{
+			activeBotIndex = count;
+		}
+	}
+	
+	/**
+	 * After the initialization of the bots, they need to be added to this class, so it can 
+	 * follow their position on repaints. To invalidate (kill) a bot, set its coordinates to -1 -1, 
+	 * which is out of the window
+	 * @param bots The bots of the game to draw.
+	 */
+	public void setBots(Bot[] bots) {
+		botsPosition = new DirectVector[bots.length];
+		for(int i = 0; i < bots.length; i++)
+		{
+			botsPosition[i].right = bots[i].currentField.x;
+			botsPosition[i].up = bots[i].currentField.y;
+		}
+	}
+
+}

@@ -1,6 +1,8 @@
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -75,6 +77,11 @@ public class Menu extends JFrame {
 	
 	    jButton1.setFont(font2); // NOI18N
 	    jButton1.setText("Start");
+	    jButton1.addActionListener(new ActionListener() {
+	    	public void actionPerformed( ActionEvent evt) {
+	    		new MapFrame();
+	    	}
+	    });
 	    jPanel1.add(jButton1);
 	
 	    jButton3.setFont(font1); // NOI18N

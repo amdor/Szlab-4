@@ -20,13 +20,13 @@ public class Proto {
 	private static int currentMaxSmallBotID = 20;
 	
 	private static String testFolderPath = System.getProperty("user.dir") + "\\tests";
-	private static String testMapName = "\\map.txt";
+	private static String testMapName = "map.txt";
 	
 	private static String[] inputFiles = {"\\change_speed.txt", "\\change_speed_output.txt",
 		"\\jump.txt", "\\jump_output.txt"};
 	
 	private static Map testMap;
-	private static ArrayList<Machine> testMachines = new ArrayList<Machine>();
+	public static ArrayList<Machine> testMachines = new ArrayList<Machine>();
 	private static Bot playerBot;
 	
 	
