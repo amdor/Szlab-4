@@ -77,7 +77,7 @@ public class Bot extends Machine {
 		this.currentField = tmp;
 		//this is the next currentField, where the robot will jump
 		if(this.currentField.handleLanding(this)){
-		return true;	
+			return true;	
 		}
 		return false;
 	}
