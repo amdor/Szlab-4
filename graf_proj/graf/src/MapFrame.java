@@ -48,6 +48,7 @@ public class MapFrame extends JFrame implements ActionListener {
         JButton jumpButton = new JButton("Jump");
         jumpButton.setActionCommand("Jump");
         jumpButton.addActionListener(this);
+        buttonPanel.add(jumpButton);
         
 		JButton putPuttyButton = new JButton("Put putty");
         putPuttyButton.setActionCommand("Putputty");
