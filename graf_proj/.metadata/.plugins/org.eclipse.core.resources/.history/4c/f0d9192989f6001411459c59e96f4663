@@ -66,9 +66,7 @@ public final class Map {
 		int y = currentField.y + dv.getup();
 		if(x >= fields.size() || y >= fields.get(x).size())
 		{
-			Field f = new Field(-1, -1);
-			f.isValid = false;
-			return f;
+			return new Field(-1, -1);
 		}
 		return fields.get(x).get(y);
 //		Skeleton.showInfo("Function called: Map: getNextField(int,int)");

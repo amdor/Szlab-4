@@ -19,7 +19,7 @@ public class MapFrame extends JFrame implements ActionListener {
 	public MapFrame()
 	{
 		//frame
-		super("Phoebe");
+		super("Game");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(600, 400);
 		setResizable(false);
@@ -59,13 +59,7 @@ public class MapFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("Jump"))
 		{
-			if(bots.size() == 0)
-				return;
-			if(!bots.get(activeBotIndex).jump())
-			{
-				bots.remove(activeBotIndex);//jumped out, kill
-				activeBotIndex--;
-			}
+			bots.get(activeBotIndex).jump();
 			if(activeBotIndex == bots.size() - 1)
 			{
 				activeBotIndex = 0;

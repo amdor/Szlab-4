@@ -59,12 +59,9 @@ public class MapFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("Jump"))
 		{
-			if(bots.size() == 0)
-				return;
 			if(!bots.get(activeBotIndex).jump())
 			{
 				bots.remove(activeBotIndex);//jumped out, kill
-				activeBotIndex--;
 			}
 			if(activeBotIndex == bots.size() - 1)
 			{

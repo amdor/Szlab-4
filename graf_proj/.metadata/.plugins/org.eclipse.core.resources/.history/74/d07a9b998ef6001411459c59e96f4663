@@ -87,9 +87,7 @@ public class MapPanel extends JPanel {
 		}
 
 		rectGraphics.setColor(Color.GRAY);
-		int activeBotCellIndex = -1;
-		if(bots.size() > 0)
-			activeBotCellIndex = bots.get(activeBotIndex).currentField.y * columnCount + bots.get(activeBotIndex).currentField.x;
+		int activeBotCellIndex = bots.get(activeBotIndex).currentField.y * columnCount + bots.get(activeBotIndex).currentField.x;
 		
 		//draw cells
 		for (int i = 0; i < cells.size(); i++) {
