@@ -93,7 +93,7 @@ public class MapFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("Jump"))
 		{
-			currentPlayer.setText("Player:" + activeBotIndex );
+			
 			if(bots.size() == 0)
 				return; 
 			
@@ -148,6 +148,7 @@ public class MapFrame extends JFrame implements ActionListener {
 				dy.setEnabled(bots.get(activeBotIndex).isDirectable);
 			}
 			mapPanel.repaint();
+			currentPlayer.setText("Player:" + activeBotIndex );
 		}//jump end
 		else if(e.getActionCommand().equals("Putputty")){
 			bots.get(activeBotIndex).putPutty();
