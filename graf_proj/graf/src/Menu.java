@@ -77,6 +77,13 @@ public class Menu extends JFrame implements ActionListener, DocumentListener{
 	    jButton2.setFont(font1); // NOI18N
 	    jButton2.setText("Eredmények");
 	    jPanel1.add(jButton2);
+	    
+	    jButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {          	
+            	new ScoreBoard();
+            }
+        });
 	
 	    jButton1.setFont(font2); // NOI18N
 	    jButton1.setText("Start");
