@@ -38,7 +38,7 @@ public class MapPanel extends JPanel {
 	private ArrayList<Rectangle> cells = new ArrayList<>(rowCount * columnCount);
 	public BufferedImage wallE;
 	public BufferedImage wallF;
-	public BufferedImage Aron;
+	public BufferedImage oilStain;
 	public BufferedImage putty;
 
 //	private DirectVector[] botsPosition;
@@ -52,7 +52,7 @@ public class MapPanel extends JPanel {
 		try {
 			wallE = ImageIO.read(new File("src\\walle.png"));
 			wallF = ImageIO.read(new File("src\\wallf.png"));
-			Aron = ImageIO.read(new File("src\\Aron.png"));
+			oilStain = ImageIO.read(new File("src\\oilstain.png"));
 			putty = ImageIO.read(new File("src\\putty.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -119,27 +119,22 @@ public class MapPanel extends JPanel {
 
 		}
 		
-		
-		
-		
 		//draw bots
 		for(int i = 0; i < bots.size(); i++) {
-			drawWallE(g, bots.get(i).currentField.x, bots.get(i).currentField.y);
+			drawImage(wallE, g, bots.get(i).currentField.x, bots.get(i).currentField.y);
 		}
-		
+		//draw smallBots
 		for(int i=0;i<Map.smallBots.size();i++){
-			drawWallF(g,Map.smallBots.get(i).currentField.x,Map.smallBots.get(i).currentField.y);
+			drawImage(wallF, g,Map.smallBots.get(i).currentField.x,Map.smallBots.get(i).currentField.y);
 		}
-		
+		//draw obstacles
 		for(int i = 0; i < Map.getInstance().fields.size(); i++){
 			for(int j = 0; j < Map.getInstance().fields.get(i).size(); j++){
 				if(Map.getInstance().fields.get(i).get(j).getHasOil()){
-					drawOil(g, i, j);
-					System.out.println("OLAJ!!!");
+					drawImage(oilStain, g, i, j);
 				}
 				if(Map.fields.get(i).get(j).getHasPutty()){
-					drawPutty(g, i, j);
-					System.out.println("PUTTY!!!!");
+					drawImage(putty, g, i, j);
 				}
 			}
 		}
@@ -153,21 +148,21 @@ public class MapPanel extends JPanel {
 	 * @param x The x coordinate of the bot
 	 * @param y The y coordinate of the bot
 	 */
-	private void drawWallE(Graphics g, int x, int y) {
-		g.drawImage(wallE, xOffset + (x * cellWidth)+1, yOffset + (y * cellHeight)+1, null);//+1 is magic number
+	private void drawImage(Image i, Graphics g, int x, int y) {
+		g.drawImage(i, xOffset + (x * cellWidth)+1, yOffset + (y * cellHeight)+1, null);//+1 is magic number
 	}
-		private void drawWallF(Graphics g, int x, int y) {
+	/*private void drawWallF(Graphics g, int x, int y) {
 		g.drawImage(wallF, xOffset + (x * cellWidth)+1, yOffset + (y * cellHeight)+1, null);//+1 is magic number
 	}
-	
+
 	private void drawOil(Graphics g, int x, int y){
-		g.drawImage(Aron, xOffset + (x * cellWidth)+1, yOffset + (y * cellHeight)+1, null);
+		g.drawImage(oilStain, xOffset + (x * cellWidth)+1, yOffset + (y * cellHeight)+1, null);
 	}
-	
+
 	private void drawPutty(Graphics g, int x, int y){
 		g.drawImage(putty, xOffset + (x * cellWidth)+1, yOffset + (y * cellHeight)+1, null);
 	}
-	
+*/
 	public void setActiveBotIndex(int count) {
 		if(count == 0)
 		{

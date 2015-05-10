@@ -83,7 +83,8 @@ public class Bot extends Machine {
 	}
 	
 	/**
-	 * the function is called when two Bot collides
+	 * The function is called when two Bot collides
+	 * The collision with small and normal bots are handled separately
 	 */
 	@Override
 	public void collision(){
@@ -112,6 +113,7 @@ public class Bot extends Machine {
 		else if(currentField.getMachineID() > 19)
 		{
 			currentField.setObstacle(new Oil());
+			currentField.setHasOil(true);
 			// kill smallBot
 			int smallID = currentField.getMachineID();
 			currentField.removeMachineFromField();

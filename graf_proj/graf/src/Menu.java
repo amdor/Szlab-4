@@ -5,8 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
-public class Menu extends JFrame {
+public class Menu extends JFrame implements ActionListener, DocumentListener{
 
 	private JButton jButton1;
 	private JButton jButton2;
@@ -21,6 +23,7 @@ public class Menu extends JFrame {
     private JPanel jPanel3;
     private JPanel jPanel4;
     private JTextField jTextField1;
+    public static int playerCount = 2;
     
     public Menu(){
     	initComponents();
@@ -77,12 +80,8 @@ public class Menu extends JFrame {
 	
 	    jButton1.setFont(font2); // NOI18N
 	    jButton1.setText("Start");
-	    jButton1.addActionListener(new ActionListener() {
-	    	public void actionPerformed( ActionEvent evt) {
-	    		new MapFrame();
-			setVisible(false);
-	    	}
-	    });
+	    jButton1.setActionCommand("start");
+	    jButton1.addActionListener(this);
 	    jPanel1.add(jButton1);
 	
 	    jButton3.setFont(font1); // NOI18N
@@ -100,11 +99,8 @@ public class Menu extends JFrame {
 	    jTextField1.setFont(font1); // NOI18N
 	    jTextField1.setText("2");
 	    jTextField1.setColumns(2);
-	    jTextField1.addActionListener(new java.awt.event.ActionListener() {
-	        public void actionPerformed(java.awt.event.ActionEvent evt) {
-	            jTextField1ActionPerformed(evt);
-	        }
-	    });
+	    jTextField1.setActionCommand("textfield");
+	    jTextField1.getDocument().addDocumentListener(this);
 	    jPanel3.add(jTextField1);
 	
 	    jLabel3.setFont(font1); // NOI18N
@@ -112,7 +108,7 @@ public class Menu extends JFrame {
 	    jPanel4.add(jLabel3);
 	
 	    jComboBox1.setFont(font1); // NOI18N
-	    jComboBox1.setModel(new DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+	    jComboBox1.setModel(new DefaultComboBoxModel(new String[] { "Basic Map"}));
 	    jPanel4.add(jComboBox1);
 	
 	    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -143,13 +139,36 @@ public class Menu extends JFrame {
 	 * 
 	 * @param evt
 	 */
-	private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        String str = jTextField1.getText();
-        double player = Double.parseDouble(str);
-        if(player < 0){
-            new JOptionPane().showMessageDialog(rootPane, "Minimum 2, és maximum 5 játékos lehet ", "Hiba", JOptionPane.ERROR_MESSAGE);
-            
+	private void jTextField1ActionPerformed(DocumentEvent evt) {                                            
+        int player = Integer.parseInt(jTextField1.getText());
+        if(player < 2 || player > 5){
+            JOptionPane.showMessageDialog(rootPane, "Minimum 2, és maximum 5 játékos lehet ", "Hiba", JOptionPane.ERROR_MESSAGE);
+        }
+        else
+        {
+        	playerCount = player;
         }
     }
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getActionCommand().equals("start"))
+		{
+			new MapFrame();
+    		setVisible(false);
+		}
+	}
+	
+	//Document listener methods
+	public void changedUpdate(DocumentEvent e) {
+		jTextField1ActionPerformed(e);
+	}
+	public void removeUpdate(DocumentEvent e) {
+		//don't care if removed
+	}
+	public void insertUpdate(DocumentEvent e) {
+		jTextField1ActionPerformed(e);
+	}
+
 
 }

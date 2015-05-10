@@ -64,7 +64,7 @@ public final class Map {
 		
 		int x = currentField.x + dv.getright();
 		int y = currentField.y + dv.getup();
-		if(x >= fields.size() || y >= fields.get(x).size())
+		if( x < 0 || y < 0 || x >= fields.size() || y >= fields.get(x).size())//map tells that this field is invalid
 		{
 			Field f = new Field(-1, -1);
 			f.isValid = false;

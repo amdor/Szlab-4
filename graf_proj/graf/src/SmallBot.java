@@ -10,7 +10,14 @@ public class SmallBot extends Machine{
 	 */
 	public SmallBot(int id, Field current){
 		round = 0;
-		ID = id;
+		if(id < 20)
+		{
+			ID = 100 + id;
+		}
+		else
+		{
+			ID = id;
+		}
 		directVector = new DirectVector();
 		currentField = current;
 		

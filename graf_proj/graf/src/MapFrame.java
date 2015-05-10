@@ -35,20 +35,18 @@ public class MapFrame extends JFrame implements ActionListener {
         mapPanel = new MapPanel();
         bots = new ArrayList<>();
         //example bots generation
+        //zeroth bot is the default bot of player1, and so its is highlighted by the panel
         activeBotIndex = 0;
-        bots.add(new Bot(0, Map.getInstance().getField(8, 5))); //zeroth bot is the default bot of player1, and so its is highlighted by the panel
-	    for(int i = 1; i < 4; i++)
+	    for(int i = 0; i < Menu.playerCount; i++)
 	    {
-	    	Bot bot = new Bot(i, Map.getInstance().getField(i, i*2));
+	    	Bot bot = new Bot(i, Map.getInstance().getField(0, i+1));
 	    	bots.add(bot);
 	    }
-	    
-	    Map.smallBots.add(new SmallBot(10,Map.getInstance().getField(0, 0)));
-	    
 	    mapPanel.setBots(bots);
+	    Map.smallBots.add(new SmallBot(10,Map.getInstance().getField(7, 0)));
+	    
         setLayout(new BorderLayout());
         add(mapPanel, BorderLayout.NORTH);
-        Map.smallBots.add(new SmallBot(10,Map.getInstance().getField(0, 0)));
         
         //buttonPanel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 25, 10));
@@ -104,6 +102,7 @@ public class MapFrame extends JFrame implements ActionListener {
 			{
 				bots.remove(activeBotIndex);//jumped out, kill
 				activeBotIndex--;
+				//TODO tell the user, the bot is dead
 			}
 			if(activeBotIndex == bots.size() - 1)
 			{

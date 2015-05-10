@@ -197,6 +197,10 @@ public class Field {
 	 * @param b
 	 */
 	public void setHasOil(boolean b){
+		if(hasPutty && b)
+		{
+			hasPutty = false;
+		}
 		hasOil = b;
 	}
 	
@@ -213,6 +217,10 @@ public class Field {
 	 * @param b
 	 */
 	public void setHasPutty(boolean b){
+		if(hasOil && b)
+		{
+			hasOil = false;
+		}
 		hasPutty = b;
 	}
 	
