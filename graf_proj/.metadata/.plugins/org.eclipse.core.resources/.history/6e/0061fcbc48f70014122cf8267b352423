@@ -150,14 +150,6 @@ public class MapFrame extends JFrame implements ActionListener {
 				model2.setValue(up);
 				dx.setEnabled(bots.get(activeBotIndex).isDirectable);
 				dy.setEnabled(bots.get(activeBotIndex).isDirectable);
-				
-				if(bots.size() == 1) { //game over
-//					playerListForScoreBoard[playerListForScoreBoard.length - bots.size()] = "Player " + bots.get(0);
-//					ScoreBoard.AddToScoreBoard(playerListForScoreBoard);
-//					this.setVisible(false);
-//					new ScoreBoard();
-					//TODO scoreBoard
-				}
 			}
 			mapPanel.repaint();
 			

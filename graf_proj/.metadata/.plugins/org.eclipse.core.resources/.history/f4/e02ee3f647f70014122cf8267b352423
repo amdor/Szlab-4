@@ -19,7 +19,6 @@ public class MapFrame extends JFrame implements ActionListener {
 	private ArrayList<Bot> bots;
 	private int activeBotIndex;
 	private static int round=15;
-	private static String[] playerListForScoreBoard;
 	
 	SpinnerNumberModel model1;
 	SpinnerNumberModel model2;
@@ -48,7 +47,6 @@ public class MapFrame extends JFrame implements ActionListener {
 	    	Bot bot = new Bot(i, Map.getInstance().getField(0, i+1));
 	    	bots.add(bot);
 	    }
-	    playerListForScoreBoard = new String[bots.size()];
 	    mapPanel.setBots(bots);
 		Map.smallBots.add(new SmallBot(10,Map.getInstance().getField(0, 0)));
 	    
@@ -106,7 +104,6 @@ public class MapFrame extends JFrame implements ActionListener {
 			
 			if(!bots.get(activeBotIndex).jump())
 			{
-				playerListForScoreBoard[playerListForScoreBoard.length - bots.size()] = "Player " + bots.get(activeBotIndex);
 				bots.remove(activeBotIndex);//jumped out, kill
 				inform.setText(activeBotIndex + ".bot out");
 				activeBotIndex--;
@@ -115,7 +112,6 @@ public class MapFrame extends JFrame implements ActionListener {
 			//jump succeeded, but other bots might've died, remove all next bots that are dead
 			while(activeBotIndex < bots.size() - 1 && bots.get(activeBotIndex + 1).currentField == null)
 			{
-				playerListForScoreBoard[playerListForScoreBoard.length - bots.size()] = "Player " + bots.get(activeBotIndex);
 				bots.remove(activeBotIndex + 1);
 			}
 			//last normal bot has jumped or we have players left in this round
@@ -150,14 +146,6 @@ public class MapFrame extends JFrame implements ActionListener {
 				model2.setValue(up);
 				dx.setEnabled(bots.get(activeBotIndex).isDirectable);
 				dy.setEnabled(bots.get(activeBotIndex).isDirectable);
-				
-				if(bots.size() == 1) { //game over
-//					playerListForScoreBoard[playerListForScoreBoard.length - bots.size()] = "Player " + bots.get(0);
-//					ScoreBoard.AddToScoreBoard(playerListForScoreBoard);
-//					this.setVisible(false);
-//					new ScoreBoard();
-					//TODO scoreBoard
-				}
 			}
 			mapPanel.repaint();
 			

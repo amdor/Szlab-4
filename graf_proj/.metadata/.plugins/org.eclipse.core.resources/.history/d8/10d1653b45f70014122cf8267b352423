@@ -125,8 +125,6 @@ public class Field {
 	 */
 	public void removeObstacle() {
 		this.obstacle = null; //don't care if it's already null....
-		hasOil = false;
-		hasPutty = false;
 	}
 	
 	/**
