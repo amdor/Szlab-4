@@ -17,7 +17,7 @@ public class MapFrame extends JFrame implements ActionListener {
 	public MapPanel mapPanel;
 	private ArrayList<Bot> bots;
 	private int activeBotIndex;
-	private static int round=15;
+	private static int round=10;
 	
 	SpinnerNumberModel model1;
 	SpinnerNumberModel model2;
@@ -108,11 +108,9 @@ public class MapFrame extends JFrame implements ActionListener {
 			if(activeBotIndex == bots.size() - 1)
 			{
 				activeBotIndex = 0;
-				for(int i=0;i<Map.smallBots.size();i++){
-					if(!Map.smallBots.get(i).jump())
-					{
-						Map.smallBots.remove(i);
-					}
+				//TODO : the last bot has jumped, now it's time for smallbots, and we need to tell the map, that a round has passed (timehandling)
+				for(int i=0;i<Map.getInstance().smallBots.size();i++){
+					Map.getInstance().smallBots.get(i).jump();
 				}
 				round--;
 			

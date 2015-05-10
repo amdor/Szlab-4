@@ -69,11 +69,9 @@ public class SmallBot extends Machine{
 	
 	@Override
 public boolean jump(){
-		if(currentField.hasObstacle())
-		{
-			
-		}
+		
 		nearestPath();
+
 		
 		int vx=0;
 		int vy=0;
@@ -98,12 +96,10 @@ public boolean jump(){
 		Field tmp = Map.getNextField(this.currentField, this.directVector);
 		if(!tmp.isValid)
 			return false;
-		if(tmp.)
 		this.currentField = tmp; 
 		currentField.addMachineToField(this);
 		return true;	
 	}
-	
 	/**
 	 * When a SmallBot collides with any other Bot
 	 * Changes the directon of the SmallBot
