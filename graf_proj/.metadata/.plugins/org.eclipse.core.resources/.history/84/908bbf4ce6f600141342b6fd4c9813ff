@@ -17,10 +17,10 @@ public class MapFrame extends JFrame implements ActionListener {
 	public MapPanel mapPanel;
 	private ArrayList<Bot> bots;
 	private int activeBotIndex;
-	SpinnerNumberModel model1;
-	SpinnerNumberModel model2;
-    JSpinner dx;
-    JSpinner dy;
+	SpinnerNumberModel model1 = new SpinnerNumberModel(0, -1, 1, 1);
+	SpinnerNumberModel model2 = new SpinnerNumberModel(0, -1, 1, 1);
+    JSpinner dx=new JSpinner(model1);
+    JSpinner dy=new JSpinner(model2);
 	
 	public MapFrame()
 	{
@@ -66,16 +66,14 @@ public class MapFrame extends JFrame implements ActionListener {
         putOilButton.setActionCommand("Put Oil");
         putOilButton.addActionListener(this);
         buttonPanel.add(putOilButton);
-
-        model1 = new SpinnerNumberModel(0, -1, 1, 1);
-        model2 = new SpinnerNumberModel(0, -1, 1, 1);
-        dx = new JSpinner(model1);
-        dy = new JSpinner(model2);
-        ((JSpinner.NumberEditor) dx.getEditor()).getTextField().setEditable(false);//disable their textfield
-        ((JSpinner.NumberEditor) dy.getEditor()).getTextField().setEditable(false);
-        buttonPanel.add(dx);
-        buttonPanel.add(dy);		
         
+
+        buttonPanel.add(dx);
+        buttonPanel.add(dy);
+        
+		
+		
+		
         add(buttonPanel, BorderLayout.CENTER);
         pack();
         setVisible(true);		
@@ -85,16 +83,16 @@ public class MapFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("Jump"))
 		{
-			int right = bots.get(activeBotIndex).getDirectVector().getright(); 
-			int up = bots.get(activeBotIndex).getDirectVector().getup();	
+			int right=bots.get(activeBotIndex).getDirectVector().getright(); 
+			int up=bots.get(activeBotIndex).getDirectVector().getup();	
 			model1.setMaximum(right+1);
 			model1.setMinimum(right-1);
 			model2.setMaximum(up+1);
 			model2.setMinimum(up-1);
 
 			
-			Integer x = (Integer)dx.getValue();
-			Integer y = (Integer)dy.getValue();
+			Integer x=(Integer)dx.getValue();
+			Integer y=(Integer)dy.getValue();
 			
 			bots.get(activeBotIndex).changeSpeedVector(x, y);
 			
@@ -109,6 +107,7 @@ public class MapFrame extends JFrame implements ActionListener {
 			{
 				activeBotIndex = 0;
 				//TODO : the last bot has jumped, now it's time for smallbots, and we need to tell the map, that a round has passed (timehandling)
+				
 			}
 			else
 			{
@@ -116,35 +115,27 @@ public class MapFrame extends JFrame implements ActionListener {
 
 			}
 			mapPanel.setActiveBotIndex(activeBotIndex);
-			//So the spinner represents the current bot's state
-			if(bots.size() != 0)
-			{
-				right = bots.get(activeBotIndex).getDirectVector().getright(); 
-				up = bots.get(activeBotIndex).getDirectVector().getup();	
-				model1.setMaximum(right+1);
-				model1.setMinimum(right-1);
-				model2.setMaximum(up+1);
-				model2.setMinimum(up-1);
-				model1.setValue(right);
-				model2.setValue(up);
-			}
 			mapPanel.repaint();
 		}
 		else if(e.getActionCommand().equals("Putputty")){
 			System.out.println(3);
-//			Map.fields.get(bots.get(activeBotIndex).currentField.x).get(bots.get(activeBotIndex).currentField.y)
-			bots.get(activeBotIndex).currentField.setObstacle(new Putty());
-//			Map.fields.get(bots.get(activeBotIndex).currentField.x).get(bots.get(activeBotIndex).currentField.y)
-			bots.get(activeBotIndex).currentField.setHasPutty(true);
+			
+			
+			
+			
+			Map.fields.get(bots.get(activeBotIndex).currentField.x).get(bots.get(activeBotIndex).currentField.y).
+				setObstacle(new Putty());
+			Map.fields.get(bots.get(activeBotIndex).currentField.x).get(bots.get(activeBotIndex).currentField.y)
+	.			setHasPutty(true);
 			bots.get(activeBotIndex).puttyCount -= 1;
 			
 		}	
 		else if(e.getActionCommand().equals("Put Oil")){
 			System.out.println(2);
-//			Map.fields.get(bots.get(activeBotIndex).currentField.x).get(bots.get(activeBotIndex).currentField.y)
-			bots.get(activeBotIndex).currentField.setObstacle(new Oil());
-//			Map.fields.get(bots.get(activeBotIndex).currentField.x).get(bots.get(activeBotIndex).currentField.y)
-			bots.get(activeBotIndex).currentField.setHasOil(true);
+			Map.fields.get(bots.get(activeBotIndex).currentField.x).get(bots.get(activeBotIndex).currentField.y).
+				setObstacle(new Oil());
+			Map.fields.get(bots.get(activeBotIndex).currentField.x).get(bots.get(activeBotIndex).currentField.y)
+		.		setHasOil(true);
 			bots.get(activeBotIndex).oilCount -= 1;
 			
 		}

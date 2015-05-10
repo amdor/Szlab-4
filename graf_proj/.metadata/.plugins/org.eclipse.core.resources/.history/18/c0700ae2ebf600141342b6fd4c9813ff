@@ -70,9 +70,9 @@ public class MapFrame extends JFrame implements ActionListener {
         model1 = new SpinnerNumberModel(0, -1, 1, 1);
         model2 = new SpinnerNumberModel(0, -1, 1, 1);
         dx = new JSpinner(model1);
-        dy = new JSpinner(model2);
         ((JSpinner.NumberEditor) dx.getEditor()).getTextField().setEditable(false);//disable their textfield
         ((JSpinner.NumberEditor) dy.getEditor()).getTextField().setEditable(false);
+        dy = new JSpinner(model2);
         buttonPanel.add(dx);
         buttonPanel.add(dy);		
         

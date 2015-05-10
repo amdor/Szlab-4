@@ -24,4 +24,5 @@
 <fullyQualifiedTypeName name="Map"/>
 <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
 <fullyQualifiedTypeName name="java.awt.event.ActionEvent"/>
+<fullyQualifiedTypeName name="javax.swing.JSpinner.NumberEditor"/>
 </qualifiedTypeNameHistroy>
