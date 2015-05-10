@@ -43,7 +43,7 @@ public class MapFrame extends JFrame implements ActionListener {
 	    	bots.add(bot);
 	    }
 	    mapPanel.setBots(bots);
-	    Map.smallBots.add(new SmallBot(10,Map.getInstance().getField(0, 0)));
+	    Map.smallBots.add(new SmallBot(10,Map.getInstance().getField(7, 0)));
 	    
         setLayout(new BorderLayout());
         add(mapPanel, BorderLayout.NORTH);

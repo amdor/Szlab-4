@@ -126,7 +126,7 @@ public class MapPanel extends JPanel {
 		//draw the active cell if any
 		if(activeBotCellIndex > -1)
 		{
-			float thickness = 3;
+			float thickness = 5;
 			Stroke oldStroke = rectGraphics.getStroke();
 			rectGraphics.setStroke(new BasicStroke(thickness));
 			rectGraphics.draw(cells.get(activeBotCellIndex));

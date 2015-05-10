@@ -21,7 +21,7 @@ public class SmallBot extends Machine{
 		directVector = new DirectVector();
 		if((current == null) || !(current.addMachineToField(this))){
 			throw(new IllegalArgumentException());
-		} else {//else field is valid, and now holds our new smallbot
+		} else {//else field is valid, and now holds our new bot
 			currentField = current;
 			currentField.addMachineToField(this);
 		}
@@ -85,20 +85,19 @@ public class SmallBot extends Machine{
 			return false;
 		}
 	}
-		public boolean jump2() {
-			currentField.removeMachineFromField();
-			
-			int x=currentField.x-fieldToFind.x;
-			int y=currentField.y-fieldToFind.y;
-			directVector.changeDirection(x, y);
-			Field tmp = Map.getNextField(this.currentField, this.directVector);
-			this.currentField = tmp;
-			
-			
-			return true;
-			
-			
-		}
+	public boolean jump2() {
+		currentField.removeMachineFromField();
+
+		int x=currentField.x-fieldToFind.x;
+		int y=currentField.y-fieldToFind.y;
+		directVector.changeDirection(x, y);
+		Field tmp = Map.getNextField(this.currentField, this.directVector);
+		this.currentField = tmp;
+		
+		return true;
+
+
+	}
 	/**
 	 * When a SmallBot collides with any other Bot
 	 * Changes the directon of the SmallBot

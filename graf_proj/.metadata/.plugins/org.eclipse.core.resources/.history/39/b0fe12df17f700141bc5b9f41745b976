@@ -19,12 +19,7 @@ public class SmallBot extends Machine{
 			ID = id;
 		}
 		directVector = new DirectVector();
-		if((current == null) || !(current.addMachineToField(this))){
-			throw(new IllegalArgumentException());
-		} else {//else field is valid, and now holds our new smallbot
-			currentField = current;
-			currentField.addMachineToField(this);
-		}
+		currentField = current;
 		
 	}
 

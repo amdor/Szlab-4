@@ -99,7 +99,17 @@ public class MapPanel extends JPanel {
 		
 		//draw cells
 		for (int i = 0; i < cells.size(); i++) {
-			rectGraphics.draw(cells.get(i));
+			
+			else
+			{
+				rectGraphics.draw(cells.get(i));
+				/*for(int j=0; j < cells.size(); j++){
+					if(Map.getInstance().getField(i, j).getHasOil()){
+						drawOil(g, bots.get(activeBotIndex).currentField.x, bots.get(activeBotIndex).currentField.y);
+					}
+				}*/
+			}
+
 		}
 
 		//draw obstacles
@@ -126,7 +136,7 @@ public class MapPanel extends JPanel {
 		//draw the active cell if any
 		if(activeBotCellIndex > -1)
 		{
-			float thickness = 3;
+			float thickness = 5;
 			Stroke oldStroke = rectGraphics.getStroke();
 			rectGraphics.setStroke(new BasicStroke(thickness));
 			rectGraphics.draw(cells.get(activeBotCellIndex));

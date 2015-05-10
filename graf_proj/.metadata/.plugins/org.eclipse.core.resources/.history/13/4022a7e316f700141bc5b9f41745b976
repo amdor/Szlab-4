@@ -124,7 +124,7 @@ public class Bot extends Machine {
 				if(Map.smallBots.get(i).ID == smallID)
 				{
 					Map.smallBots.remove(i);
-					i = Map.smallBots.size() + 1;//found the smallBot, end for loop
+					i = Map.smallBots.size() + 1;
 				}
 			}
 			

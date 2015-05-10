@@ -52,7 +52,7 @@ public class Field {
 		}
 
 		if(this.currentMachine != null) {
-			Machine oldMachine = currentMachine;
+			Bot oldMachine = (Bot) currentMachine;
 			bot.collision();
 			//suggestion:if currentMachine lives after collision, than return false
 			//and that kills bot, instead of sending a destroy to it from currentBot's collision
@@ -60,9 +60,7 @@ public class Field {
 				return false;
 			}else {//oldMachine should die, and bot should have new speed, so we tell currentMachine this news
 				this.currentMachine = bot;
-				if(oldMachine.ID < 20) {//if it was a smallBot, than it was removed
-					oldMachine.collision();
-				}
+				oldMachine.collision();
 			}
 		}
 		//either it's a putty or an oil does the very same thing at this level of abstraction

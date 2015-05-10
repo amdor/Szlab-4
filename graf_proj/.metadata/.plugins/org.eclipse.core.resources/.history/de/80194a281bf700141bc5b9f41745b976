@@ -99,9 +99,34 @@ public class MapPanel extends JPanel {
 		
 		//draw cells
 		for (int i = 0; i < cells.size(); i++) {
-			rectGraphics.draw(cells.get(i));
-		}
+			if(i == activeBotCellIndex)
+			{
+				float thickness = 5;
+				Stroke oldStroke = rectGraphics.getStroke();
+				rectGraphics.setStroke(new BasicStroke(thickness));
+				rectGraphics.draw(cells.get(i));
+				rectGraphics.setStroke(oldStroke);
+			}
+			else
+			{
+				rectGraphics.draw(cells.get(i));
+				/*for(int j=0; j < cells.size(); j++){
+					if(Map.getInstance().getField(i, j).getHasOil()){
+						drawOil(g, bots.get(activeBotIndex).currentField.x, bots.get(activeBotIndex).currentField.y);
+					}
+				}*/
+			}
 
+		}
+		
+		//draw bots
+		for(int i = 0; i < bots.size(); i++) {
+			drawImage(wallE, g, bots.get(i).currentField.x, bots.get(i).currentField.y);
+		}
+		//draw smallBots
+		for(int i=0;i<Map.smallBots.size();i++){
+			drawImage(wallF, g,Map.smallBots.get(i).currentField.x,Map.smallBots.get(i).currentField.y);
+		}
 		//draw obstacles
 		for(int i = 0; i < Map.getInstance().fields.size(); i++){
 			for(int j = 0; j < Map.getInstance().fields.get(i).size(); j++){
@@ -112,25 +137,6 @@ public class MapPanel extends JPanel {
 					drawImage(putty, g, i, j);
 				}
 			}
-		}
-		//draw smallBots
-		for(int i=0;i<Map.smallBots.size();i++) {
-			drawImage(wallF, g,Map.smallBots.get(i).currentField.x,Map.smallBots.get(i).currentField.y);
-		}
-		
-		//draw bots
-		for(int i = 0; i < bots.size(); i++) {
-			drawImage(wallE, g, bots.get(i).currentField.x, bots.get(i).currentField.y);
-		}
-		
-		//draw the active cell if any
-		if(activeBotCellIndex > -1)
-		{
-			float thickness = 3;
-			Stroke oldStroke = rectGraphics.getStroke();
-			rectGraphics.setStroke(new BasicStroke(thickness));
-			rectGraphics.draw(cells.get(activeBotCellIndex));
-			rectGraphics.setStroke(oldStroke);
 		}
 
 		rectGraphics.dispose();

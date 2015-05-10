@@ -21,9 +21,8 @@ public class SmallBot extends Machine{
 		directVector = new DirectVector();
 		if((current == null) || !(current.addMachineToField(this))){
 			throw(new IllegalArgumentException());
-		} else {//else field is valid, and now holds our new smallbot
-			currentField = current;
-			currentField.addMachineToField(this);
+		} else {//else field is valid, and now holds our new bot
+			this.currentField = current;
 		}
 		
 	}
