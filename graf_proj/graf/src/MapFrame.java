@@ -148,14 +148,18 @@ public class MapFrame extends JFrame implements ActionListener {
 				dy.setEnabled(bots.get(activeBotIndex).isDirectable);
 			}
 			mapPanel.repaint();
+			
 			currentPlayer.setText("Player:" + activeBotIndex );
+			
 		}//jump end
 		else if(e.getActionCommand().equals("Putputty")){
 			bots.get(activeBotIndex).putPutty();
+			inform.setText(bots.get(activeBotIndex).puttyCount +"putty");
 			
 		}	
 		else if(e.getActionCommand().equals("Put Oil")){
 			bots.get(activeBotIndex).putOil();
+			inform.setText(bots.get(activeBotIndex).oilCount +"oil");
 			
 		}
 	}
