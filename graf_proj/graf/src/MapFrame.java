@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -23,6 +24,8 @@ public class MapFrame extends JFrame implements ActionListener {
 	SpinnerNumberModel model2;
     JSpinner dx;
     JSpinner dy;
+    JLabel currentPlayer;
+    JLabel inform;
 	
 	public MapFrame()
 	{
@@ -76,6 +79,11 @@ public class MapFrame extends JFrame implements ActionListener {
         buttonPanel.add(dx);
         buttonPanel.add(dy);		
         
+        currentPlayer=new JLabel("Player: 0");
+        buttonPanel.add(currentPlayer);
+        inform=new JLabel();
+        buttonPanel.add(inform);
+        
         add(buttonPanel, BorderLayout.CENTER);
         pack();
         setVisible(true);		
@@ -85,6 +93,7 @@ public class MapFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("Jump"))
 		{
+			currentPlayer.setText("Player:" + activeBotIndex );
 			if(bots.size() == 0)
 				return; 
 			
@@ -96,6 +105,7 @@ public class MapFrame extends JFrame implements ActionListener {
 			if(!bots.get(activeBotIndex).jump())
 			{
 				bots.remove(activeBotIndex);//jumped out, kill
+				inform.setText(activeBotIndex + ".bot out");
 				activeBotIndex--;
 				//TODO tell the user, the bot is dead
 			}
