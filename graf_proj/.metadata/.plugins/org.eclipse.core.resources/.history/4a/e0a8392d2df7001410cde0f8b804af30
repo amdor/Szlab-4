@@ -80,7 +80,7 @@ public boolean jump(){
 			}
 			return true;
 		}
-		if(!searchNext()){//no obstacle
+		if(!searchNext()){
 			return true;
 		}
 		

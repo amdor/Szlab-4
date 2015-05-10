@@ -80,9 +80,7 @@ public boolean jump(){
 			}
 			return true;
 		}
-		if(!searchNext()){//no obstacle
-			return true;
-		}
+		nearestPath();
 		
 		int vx=0;
 		int vy=0;

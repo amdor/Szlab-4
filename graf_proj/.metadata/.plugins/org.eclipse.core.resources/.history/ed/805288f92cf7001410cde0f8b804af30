@@ -32,7 +32,14 @@ public class SmallBot extends Machine{
 	 * the SmallBot search for the obstacle, that's the nearest to it
 	 * @return true if the object is found, false, if not found
 	 */
-	public boolean searchNext() {
+	public boolean searchNext(){
+		int x = this.currentField.x;
+		int y = this.currentField.y;
+		
+		return false;
+		
+	}
+	public void nearestPath(){
 		int x = this.currentField.x;
 		int y = this.currentField.y;
 		int minDistance=1000;
@@ -57,15 +64,6 @@ public class SmallBot extends Machine{
 				}
 			}
 		}
-		if(minDistance == 1000)
-		{
-			return false;
-		}
-		else 
-		{
-			return true;
-		}
-		
 	}
 
 	
@@ -80,9 +78,7 @@ public boolean jump(){
 			}
 			return true;
 		}
-		if(!searchNext()){//no obstacle
-			return true;
-		}
+		nearestPath();
 		
 		int vx=0;
 		int vy=0;
@@ -107,7 +103,7 @@ public boolean jump(){
 		Field tmp = Map.getNextField(this.currentField, this.directVector);
 		if(!tmp.isValid)
 			return false;
-		if(tmp.getMachine() != null && tmp.getMachine() != this)
+		if(tmp.getMachine() != null)
 		{
 			collision();
 			jump();
