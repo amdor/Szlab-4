@@ -14,6 +14,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -61,18 +62,19 @@ public class ScoreBoard extends JFrame {
 		 
 		 JLabel label;//Label for Player name
 		 //Add Compomonents to Panel
-		 for(ArrayList<String> list : scoreTable){
+		 Collections.reverse(scoreTable);
+		 for(ArrayList<String> playerList : scoreTable){
 			 //Panel for game results
 			 gameScore = new JPanel();
 			 gameScore.setAlignmentX(CENTER_ALIGNMENT);
 			 gameScore.setLayout(new BoxLayout(gameScore, BoxLayout.Y_AXIS));
 			 gameScore.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
-			 
+			 gameScore.add(Box.createRigidArea(new Dimension(0,10)));
 			int i = 1;
 			
-			gameScore.add(Box.createRigidArea(new Dimension(0,10)));
-			for(String str : list){
-				label = new JLabel(i++ + ". helyezett: " + str);
+			Collections.reverse(playerList);
+			for(String player : playerList){
+				label = new JLabel(i++ + ". helyezett: " + player);
 				label.setAlignmentX(Component.CENTER_ALIGNMENT);
 				gameScore.add(label);
 			}

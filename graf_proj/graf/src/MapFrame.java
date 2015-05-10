@@ -106,7 +106,7 @@ public class MapFrame extends JFrame implements ActionListener {
 			
 			if(!bots.get(activeBotIndex).jump())
 			{
-				playerListForScoreBoard[playerListForScoreBoard.length - bots.size()] = "Player " + bots.get(activeBotIndex);
+				playerListForScoreBoard[playerListForScoreBoard.length - bots.size()] = "Player " + bots.get(activeBotIndex).getID();
 				bots.remove(activeBotIndex);//jumped out, kill
 				inform.setText(activeBotIndex + ".bot out");
 				activeBotIndex--;
@@ -115,7 +115,7 @@ public class MapFrame extends JFrame implements ActionListener {
 			//jump succeeded, but other bots might've died, remove all next bots that are dead
 			while(activeBotIndex < bots.size() - 1 && bots.get(activeBotIndex + 1).currentField == null)
 			{
-				playerListForScoreBoard[playerListForScoreBoard.length - bots.size()] = "Player " + bots.get(activeBotIndex);
+				playerListForScoreBoard[playerListForScoreBoard.length - bots.size()] = "Player " + bots.get(activeBotIndex).getID();
 				bots.remove(activeBotIndex + 1);
 			}
 			//last normal bot has jumped or we have players left in this round
@@ -152,10 +152,10 @@ public class MapFrame extends JFrame implements ActionListener {
 				dy.setEnabled(bots.get(activeBotIndex).isDirectable);
 				
 				if(bots.size() == 1) { //game over
-//					playerListForScoreBoard[playerListForScoreBoard.length - bots.size()] = "Player " + bots.get(0);
-//					ScoreBoard.AddToScoreBoard(playerListForScoreBoard);
-//					this.setVisible(false);
-//					new ScoreBoard();
+					playerListForScoreBoard[playerListForScoreBoard.length - bots.size()] = "Player " + bots.get(0).getID();
+					ScoreBoard.AddToScoreBoard(playerListForScoreBoard);
+					this.setVisible(false);
+					new ScoreBoard();
 					//TODO scoreBoard
 				}
 			}
