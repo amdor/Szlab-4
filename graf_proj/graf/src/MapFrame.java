@@ -17,6 +17,8 @@ public class MapFrame extends JFrame implements ActionListener {
 	public MapPanel mapPanel;
 	private ArrayList<Bot> bots;
 	private int activeBotIndex;
+	private static int round=10;
+	
 	SpinnerNumberModel model1;
 	SpinnerNumberModel model2;
     JSpinner dx;
@@ -43,7 +45,7 @@ public class MapFrame extends JFrame implements ActionListener {
 	    	bots.add(bot);
 	    }
 	    mapPanel.setBots(bots);
-	    Map.smallBots.add(new SmallBot(10,Map.getInstance().getField(0, 0)));
+		Map.smallBots.add(new SmallBot(10,Map.getInstance().getField(0, 0)));
 	    
         setLayout(new BorderLayout());
         add(mapPanel, BorderLayout.NORTH);
@@ -83,6 +85,10 @@ public class MapFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("Jump"))
 		{
+			for(int i=0;i<Map.getInstance().smallBots.size();i++){
+				Map.getInstance().smallBots.get(i).jump();
+			}
+			
 			int right = bots.get(activeBotIndex).getDirectVector().getright(); 
 			int up = bots.get(activeBotIndex).getDirectVector().getup();	
 //			model1.setMaximum(right+1);
@@ -114,6 +120,8 @@ public class MapFrame extends JFrame implements ActionListener {
 			{
 				activeBotIndex = 0;
 				//TODO : the last bot has jumped, now it's time for smallbots, and we need to tell the map, that a round has passed (timehandling)
+				round--;
+			
 			}
 			else
 			{

@@ -1,7 +1,7 @@
 
 public class SmallBot extends Machine{
 	public int round;
-	Field fieldToFind;
+	Field fieldToFind=new Field(0,0);
 
 	/**
 	 * Initalizer for the SmallBot
@@ -49,7 +49,7 @@ public class SmallBot extends Machine{
 			for(int j=0; j<Map.fields.get(i).size(); j++)
 			{
 				Field v=Map.getInstance().getField(i, j);
-				if(v.hasObstacle())
+				if(v.getHasOil()||v.getHasOil());
 				{
 					int xd = x-v.x;
 					int yd = y-v.y;
@@ -57,7 +57,7 @@ public class SmallBot extends Machine{
 					if(minDistance > Distance)
 					{
 						fieldToFind=new Field(v.x, v.y);
-					
+						minDistance=Distance;
 					}
 
 				}
@@ -65,12 +65,12 @@ public class SmallBot extends Machine{
 		}
 	}
 
-	@Override
+
 	/**
 	 * makes the smallBot move from a field, to another
 	 * @return true, if the jump was succesfull false if unsuccesfull
 	 */
-	public boolean jump() {
+	public boolean jump2() {
 		currentField.removeMachineFromField();
 		if(directVector.right>1 || directVector.up>1)
 			return false;
@@ -85,20 +85,39 @@ public class SmallBot extends Machine{
 			return false;
 		}
 	}
-		public boolean jump2() {
-			currentField.removeMachineFromField();
-			
-			int x=currentField.x-fieldToFind.x;
-			int y=currentField.y-fieldToFind.y;
-			directVector.changeDirection(x, y);
-			Field tmp = Map.getNextField(this.currentField, this.directVector);
-			this.currentField = tmp;
-			
-			
-			return true;
-			
-			
+	
+	@Override
+public boolean jump(){
+		
+		nearestPath();
+
+		
+		int vx=0;
+		int vy=0;
+		
+		if(this.currentField.x<fieldToFind.x){
+			vx=1;
 		}
+		else if(this.currentField.x>fieldToFind.x)
+			vx=-1;
+		else
+			vx=0;
+		
+		if(this.currentField.y<fieldToFind.y){
+			vx=1;
+		}
+		else if(this.currentField.y>fieldToFind.y)
+			vy=-1;
+		else
+			vy=0;
+		
+		directVector.changeDirection(vx, vy);
+		Field tmp = Map.getNextField(this.currentField, this.directVector);
+		currentField.addMachineToField(this);
+		this.currentField = tmp; 
+
+			return true;	
+	}
 	/**
 	 * When a SmallBot collides with any other Bot
 	 * Changes the directon of the SmallBot
