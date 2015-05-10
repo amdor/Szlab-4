@@ -49,11 +49,11 @@ public class SmallBot extends Machine{
 			for(int j=0; j<Map.fields.get(i).size(); j++)
 			{
 				Field v=Map.getInstance().getField(i, j);
-				if(v.getHasOil() || v.getHasPutty())
+				if(v.getHasOil()||v.getHasOil());
 				{
 					int xd = x-v.x;
 					int yd = y-v.y;
-					int Distance = Math.max(Math.abs(yd),Math.abs(xd));
+					int Distance = Math.max(Math.abs(y-v.y),Math.abs(x-v.x));
 					//double Distance = Math.sqrt(xd*xd+yd*yd);
 					if(minDistance > Distance)
 					{
@@ -66,6 +66,26 @@ public class SmallBot extends Machine{
 		}
 	}
 
+
+	/**
+	 * makes the smallBot move from a field, to another
+	 * @return true, if the jump was succesfull false if unsuccesfull
+	 */
+	public boolean jump2() {
+		currentField.removeMachineFromField();
+		if(directVector.right>1 || directVector.up>1)
+			return false;
+		else
+		{
+			Field tmp = Map.getNextField(this.currentField, this.directVector);
+			this.currentField = tmp;
+			//this is the next currentField, where the robot will jump
+			if(this.currentField.handleLanding(this)){
+				return true;	
+			}
+			return false;
+		}
+	}
 	
 	@Override
 public boolean jump(){
@@ -94,11 +114,10 @@ public boolean jump(){
 		
 		directVector.changeDirection(vx, vy);
 		Field tmp = Map.getNextField(this.currentField, this.directVector);
-		if(!tmp.isValid)
-			return false;
-		this.currentField = tmp; 
 		currentField.addMachineToField(this);
-		return true;	
+		this.currentField = tmp; 
+
+			return true;	
 	}
 	/**
 	 * When a SmallBot collides with any other Bot

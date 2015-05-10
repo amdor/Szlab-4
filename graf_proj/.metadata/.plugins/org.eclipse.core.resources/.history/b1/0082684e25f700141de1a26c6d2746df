@@ -66,6 +66,26 @@ public class SmallBot extends Machine{
 		}
 	}
 
+
+	/**
+	 * makes the smallBot move from a field, to another
+	 * @return true, if the jump was succesfull false if unsuccesfull
+	 */
+	public boolean jump2() {
+		currentField.removeMachineFromField();
+		if(directVector.right>1 || directVector.up>1)
+			return false;
+		else
+		{
+			Field tmp = Map.getNextField(this.currentField, this.directVector);
+			this.currentField = tmp;
+			//this is the next currentField, where the robot will jump
+			if(this.currentField.handleLanding(this)){
+				return true;	
+			}
+			return false;
+		}
+	}
 	
 	@Override
 public boolean jump(){
@@ -94,10 +114,10 @@ public boolean jump(){
 		
 		directVector.changeDirection(vx, vy);
 		Field tmp = Map.getNextField(this.currentField, this.directVector);
+		currentField.addMachineToField(this);
 		if(!tmp.isValid)
 			return false;
 		this.currentField = tmp; 
-		currentField.addMachineToField(this);
 		return true;	
 	}
 	/**
