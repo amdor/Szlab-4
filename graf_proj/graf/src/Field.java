@@ -59,11 +59,14 @@ public class Field {
 			if(this.currentMachine != null) {//currentMachine is still alive, so bot is dead, and if bot is dead, currentMachine has new speed already
 				return false;
 			}else {//oldMachine should die, and bot should have new speed, so we tell currentMachine this news
-				this.currentMachine = bot;
+				this.addMachineToField(bot);
 				if(oldMachine.ID < 20) {//if it was a smallBot, than it was removed
 					oldMachine.collision();
 				}
 			}
+		}
+		else {
+			this.addMachineToField(bot);
 		}
 		//either it's a putty or an oil does the very same thing at this level of abstraction
 		if(this.obstacle != null) {
@@ -73,18 +76,6 @@ public class Field {
 		return true;	
 	}
 	
-	/**
-	 * handles the landing of the machine on the field
-	 * @param mch the machine that landed on the field
-	 * @return false if there was a collision
-	 */
-	public boolean handleLanding(Machine mch){
-		if(currentMachine != null){
-			mch.collision();
-			return false;
-		}
-		else return true;
-	}
 	
 	/**
 	 * Under any circumstances that needs to remove the machine which is 

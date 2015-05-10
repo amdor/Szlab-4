@@ -110,7 +110,9 @@ public boolean jump(){
 		if(tmp.getMachine() != null && tmp.getMachine() != this)
 		{
 			collision();
-			jump();
+			tmp = Map.getNextField(tmp, this.directVector);
+			if(!tmp.isValid)
+				return false;
 		}
 		this.currentField = tmp; 
 		currentField.addMachineToField(this);

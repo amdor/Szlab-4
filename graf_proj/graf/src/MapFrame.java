@@ -156,7 +156,6 @@ public class MapFrame extends JFrame implements ActionListener {
 					ScoreBoard.AddToScoreBoard(playerListForScoreBoard);
 					this.setVisible(false);
 					new ScoreBoard();
-					//TODO scoreBoard
 				}
 			}
 			mapPanel.repaint();
