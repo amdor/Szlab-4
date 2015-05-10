@@ -85,8 +85,22 @@ public class MapFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("Jump"))
 		{
+<<<<<<< Updated upstream
+			for(int i=0;i<Map.getInstance().smallBots.size();i++){
+				Map.getInstance().smallBots.get(i).jump();
+			}
+			
+			int right = bots.get(activeBotIndex).getDirectVector().getright(); 
+			int up = bots.get(activeBotIndex).getDirectVector().getup();	
+//			model1.setMaximum(right+1);
+//			model1.setMinimum(right-1);
+//			model2.setMaximum(up+1);
+//			model2.setMinimum(up-1);
+
+=======
 			if(bots.size() == 0)
 				return; 
+>>>>>>> Stashed changes
 			
 			Integer x = (Integer)dx.getValue();
 			Integer y = (Integer)dy.getValue();
@@ -109,9 +123,6 @@ public class MapFrame extends JFrame implements ActionListener {
 			{
 				activeBotIndex = 0;
 				//TODO : the last bot has jumped, now it's time for smallbots, and we need to tell the map, that a round has passed (timehandling)
-				for(int i=0;i<Map.getInstance().smallBots.size();i++){
-					Map.getInstance().smallBots.get(i).jump();
-				}
 				round--;
 			
 			}

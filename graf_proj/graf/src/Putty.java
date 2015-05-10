@@ -20,6 +20,7 @@ public class Putty implements Obstacle{
 		stepCount++;
 		if(stepCount >= 4) {
 			bot.currentField.removeObstacle();
+			bot.currentField.setHasPutty(false);
 		}
 	}
 }

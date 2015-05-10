@@ -76,7 +76,7 @@ public class MapPanel extends JPanel {
 		super.paintComponent(g);
 		Graphics2D rectGraphics = (Graphics2D) g.create();
 
-
+//		build cells
 		if (cells.isEmpty()) {
 			for (int row = 0; row < rowCount; row++) {
 				for (int col = 0; col < columnCount; col++) {
@@ -110,6 +110,11 @@ public class MapPanel extends JPanel {
 				}
 				if(Map.fields.get(i).get(j).getHasPutty()){
 					drawImage(putty, g, i, j);
+				}
+				if(!Map.getInstance().fields.get(i).get(j).isValid){
+					rectGraphics.setColor(Color.BLACK);
+					rectGraphics.fill(cells.get(columnCount * j + i));
+					rectGraphics.setColor(Color.GRAY);
 				}
 			}
 		}

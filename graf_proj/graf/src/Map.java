@@ -37,7 +37,6 @@ public final class Map {
 		
 	}
 	
-	//for prototype test only
 	public Field getField(int x, int y)
 	{
 		return fields.get(x).get(y);
