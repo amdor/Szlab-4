@@ -17,6 +17,10 @@ public class MapFrame extends JFrame implements ActionListener {
 	public MapPanel mapPanel;
 	private ArrayList<Bot> bots;
 	private int activeBotIndex;
+	SpinnerNumberModel model1 = new SpinnerNumberModel(0, -1, 1, 1);
+	SpinnerNumberModel model2 = new SpinnerNumberModel(0, -1, 1, 1);
+    JSpinner dx=new JSpinner(model1);
+    JSpinner dy=new JSpinner(model2);
 	
 	public MapFrame()
 	{
@@ -39,9 +43,12 @@ public class MapFrame extends JFrame implements ActionListener {
 	    	bots.add(bot);
 	    }
 	    
+	    Map.smallBots.add(new SmallBot(10,Map.getInstance().getField(0, 0)));
+	    
 	    mapPanel.setBots(bots);
         setLayout(new BorderLayout());
         add(mapPanel, BorderLayout.NORTH);
+        Map.smallBots.add(new SmallBot(10,Map.getInstance().getField(0, 0)));
         
         //buttonPanel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 25, 10));
@@ -60,10 +67,7 @@ public class MapFrame extends JFrame implements ActionListener {
         putOilButton.addActionListener(this);
         buttonPanel.add(putOilButton);
         
-    	SpinnerNumberModel model1 = new SpinnerNumberModel(0, -1, 1, 1);
-    	SpinnerNumberModel model2 = new SpinnerNumberModel(0, -1, 1, 1);
-        JSpinner dx=new JSpinner(model1);
-        JSpinner dy=new JSpinner(model2);
+
         buttonPanel.add(dx);
         buttonPanel.add(dy);
         
@@ -79,6 +83,19 @@ public class MapFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("Jump"))
 		{
+			int right=bots.get(activeBotIndex).getDirectVector().getright(); 
+			int up=bots.get(activeBotIndex).getDirectVector().getup();	
+			model1.setMaximum(right+1);
+			model1.setMinimum(right-1);
+			model2.setMaximum(up+1);
+			model2.setMinimum(up-1);
+
+			
+			Integer x=(Integer)dx.getValue();
+			Integer y=(Integer)dy.getValue();
+			
+			bots.get(activeBotIndex).changeSpeedVector(x, y);
+			
 			if(bots.size() == 0)
 				return;
 			if(!bots.get(activeBotIndex).jump())
@@ -90,16 +107,22 @@ public class MapFrame extends JFrame implements ActionListener {
 			{
 				activeBotIndex = 0;
 				//TODO : the last bot has jumped, now it's time for smallbots, and we need to tell the map, that a round has passed (timehandling)
+				
 			}
 			else
 			{
 				activeBotIndex++;
+
 			}
 			mapPanel.setActiveBotIndex(activeBotIndex);
 			mapPanel.repaint();
 		}
 		else if(e.getActionCommand().equals("Putputty")){
 			System.out.println(3);
+			
+			
+			
+			
 			Map.fields.get(bots.get(activeBotIndex).currentField.x).get(bots.get(activeBotIndex).currentField.y).
 				setObstacle(new Putty());
 			Map.fields.get(bots.get(activeBotIndex).currentField.x).get(bots.get(activeBotIndex).currentField.y)

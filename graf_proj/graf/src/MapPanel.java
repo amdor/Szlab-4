@@ -51,7 +51,7 @@ public class MapPanel extends JPanel {
 		setSize(600, 300);
 		try {
 			wallE = ImageIO.read(new File("src\\walle.png"));
-			wallF = ImageIO.read(new File("src\\walle.png"));
+			wallF = ImageIO.read(new File("src\\wallf.png"));
 			Aron = ImageIO.read(new File("src\\Aron.png"));
 			putty = ImageIO.read(new File("src\\putty.png"));
 		} catch (IOException e) {
@@ -157,7 +157,7 @@ public class MapPanel extends JPanel {
 		g.drawImage(wallE, xOffset + (x * cellWidth)+1, yOffset + (y * cellHeight)+1, null);//+1 is magic number
 	}
 		private void drawWallF(Graphics g, int x, int y) {
-		g.drawImage(wallE, xOffset + (x * cellWidth)+1, yOffset + (y * cellHeight)+1, null);//+1 is magic number
+		g.drawImage(wallF, xOffset + (x * cellWidth)+1, yOffset + (y * cellHeight)+1, null);//+1 is magic number
 	}
 	
 	private void drawOil(Graphics g, int x, int y){
