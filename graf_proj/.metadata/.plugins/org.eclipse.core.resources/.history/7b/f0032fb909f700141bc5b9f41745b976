@@ -84,20 +84,18 @@ public class Bot extends Machine {
 	
 	/**
 	 * The function is called when two Bot collides
-	 * The collision with small and normal bots are handled differently
+	 * The collision with small and normal bots are handled separately
 	 */
 	@Override
-	public void collision() {
+	public void collision(){
 		if(currentField.getMachineID() < 20)
 		{
 			if(compareSpeed((Bot)currentField.getMachine()))
-			{//we have to kill this bot, so the other is going towards the average direction
-				//we set the other bot's speed to guarantee, that the second call's compareSpeed gives the same result
-				//as by then other bot's speed is halfed but this bot has no speed
+			{
 				Bot b = (Bot) currentField.getMachine();
 				b.averageVector(this);
 				//killing this
-				directVector.changeDirection(0, 0);
+				this.changeSpeedVector(0, 0);
 				this.isDirectable = false;
 				this.currentField = null;
 				this.puttyCount = 0;
@@ -106,10 +104,10 @@ public class Bot extends Machine {
 			else
 			{
 //				this.averageVector((Bot) currentField.getMachine());
-				//This bot stays alive, so the other should die. This is reached by currentField, who
-				//is checking in handleLanding the result of collision, and if its original bot is not
-				//there it sends a collision to it.
+				// kill the other bot
+				Bot otherBot = (Bot)currentField.getMachine();
 				currentField.removeMachineFromField();
+				otherBot.collision();//since its currentField is still THE currentField
 			}
 		}
 		else if(currentField.getMachineID() > 19)
@@ -132,7 +130,7 @@ public class Bot extends Machine {
 	}
 
 	/**
-	 * Changes the DirectVector if can
+	 * Changes the DirectVector
 	 * @param x	Vertical component of the DirectVector
 	 * @param y	Horizontal component of the DirectVector
 	 * @return true if succeeds false if not
@@ -140,11 +138,9 @@ public class Bot extends Machine {
 	public boolean changeSpeedVector(int x, int y){
 		/*x+=directVector.getright();
 		y+=directVector.getup();*/
-		if(isDirectable)
-		{
-			directVector.changeDirection(x, y);
-		}
-		return isDirectable;		
+		directVector.changeDirection(x, y);
+		return true;
+		
 	}
 	
 	/**
@@ -187,7 +183,7 @@ public class Bot extends Machine {
 		int fel = directVector.getup();
 		jobbra=jobbra/2;
 		fel=fel/2;
-		directVector.changeDirection(jobbra, fel);
+		this.changeSpeedVector(jobbra, fel);
 //		Skeleton.showInfo("Function called: Bot: slowBot()\nThe DirecVector of the Bot is half as before");
 //		Skeleton.showInfo("Function ended: slowBot()");
 	}

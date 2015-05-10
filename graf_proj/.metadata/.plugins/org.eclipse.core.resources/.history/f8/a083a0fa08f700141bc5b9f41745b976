@@ -52,15 +52,13 @@ public class Field {
 		}
 
 		if(this.currentMachine != null) {
-			Bot oldMachine = (Bot) currentMachine;
-			bot.collision();
+			this.currentMachine.collision();
 			//suggestion:if currentMachine lives after collision, than return false
 			//and that kills bot, instead of sending a destroy to it from currentBot's collision
-			if(this.currentMachine != null) {//currentMachine is still alive, so bot is dead, and if bot is dead, currentMachine has new speed already
+			if(this.currentMachine != null) {
 				return false;
-			}else {//oldMachine should die, and bot should have new speed, so we tell currentMachine this news
+			}else {
 				this.currentMachine = bot;
-				oldMachine.collision();
 			}
 		}
 		//either it's a putty or an oil does the very same thing at this level of abstraction
@@ -83,6 +81,52 @@ public class Field {
 		}
 		else return true;
 	}
+/*	
+	public boolean handleLanding(Bot bot){
+		if(hasOil){
+			oil.punishBot(bot);
+			return false;
+		}
+		else if(!hasOil) return true;
+		if(hasPutty){
+			putty.punishBot(bot);
+			return false;
+		}
+		if(!isValid){
+			
+			return false;
+		}
+		if(currentMachine != null){
+			bot.collison();
+			return false;
+		}
+		else return true;
+/*		Skeleton.showInfo("Function called: Field: handleLanding(Bot)");
+		boolean isOiled = false;
+		if(Skeleton.isOiled()){
+			obstacle = new Oil();
+			obstacle.punishBot(bot);
+			isOiled = true;
+		}
+		if(!isOiled && Skeleton.isPuttied()){
+			obstacle = new Putty();
+			obstacle.punishBot(bot);
+		}
+		if(Skeleton.isOccupied()){
+			bot.collison();
+			Skeleton.showInfo("Function ended: handleLanding()");
+			return false;
+		}
+		//either it's a putty or an oil does the very same thing at this level of abstraction
+		if(this.obstacle != null) {
+			this.obstacle.punishBot(bot);
+		}
+		else
+			Skeleton.showInfo("Bot has fallen off the map");
+		Skeleton.showInfo("Function ended: handleLanding()");
+		return false;
+	
+	} */
 	
 	/**
 	 * Under any circumstances that needs to remove the machine which is 

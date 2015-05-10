@@ -104,12 +104,6 @@ public class MapFrame extends JFrame implements ActionListener {
 				activeBotIndex--;
 				//TODO tell the user, the bot is dead
 			}
-			//jump succeeded, but other bots might've died, remove all next bots that are dead
-			while(activeBotIndex < bots.size() - 1 && bots.get(activeBotIndex + 1).currentField == null)
-			{
-				bots.remove(activeBotIndex + 1);
-			}
-			//last normal bot has jumped or we have players left in this round
 			if(activeBotIndex == bots.size() - 1)
 			{
 				activeBotIndex = 0;

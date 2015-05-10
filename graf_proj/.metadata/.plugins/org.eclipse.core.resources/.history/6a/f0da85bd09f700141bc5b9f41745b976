@@ -91,9 +91,7 @@ public class Bot extends Machine {
 		if(currentField.getMachineID() < 20)
 		{
 			if(compareSpeed((Bot)currentField.getMachine()))
-			{//we have to kill this bot, so the other is going towards the average direction
-				//we set the other bot's speed to guarantee, that the second call's compareSpeed gives the same result
-				//as by then other bot's speed is halfed but this bot has no speed
+			{
 				Bot b = (Bot) currentField.getMachine();
 				b.averageVector(this);
 				//killing this
@@ -106,10 +104,10 @@ public class Bot extends Machine {
 			else
 			{
 //				this.averageVector((Bot) currentField.getMachine());
-				//This bot stays alive, so the other should die. This is reached by currentField, who
-				//is checking in handleLanding the result of collision, and if its original bot is not
-				//there it sends a collision to it.
+				// kill the other bot
+				Bot otherBot = (Bot)currentField.getMachine();
 				currentField.removeMachineFromField();
+				otherBot.collision();//since its currentField is still THE currentField
 			}
 		}
 		else if(currentField.getMachineID() > 19)
@@ -137,7 +135,6 @@ public class Bot extends Machine {
 	 * @param y	Horizontal component of the DirectVector
 	 * @return true if succeeds false if not
 	 */
-	public boolean changeSpeedVector(int x, int y){
 		/*x+=directVector.getright();
 		y+=directVector.getup();*/
 		if(isDirectable)
