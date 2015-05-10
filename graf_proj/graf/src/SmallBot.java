@@ -42,7 +42,7 @@ public class SmallBot extends Machine{
 	public void nearestPath(){
 		int x = this.currentField.x;
 		int y = this.currentField.y;
-		double minDistance=1000;
+		int minDistance=1000;
 		
 		for(int i=0; i<Map.fields.size(); i++)
 		{
@@ -53,7 +53,8 @@ public class SmallBot extends Machine{
 				{
 					int xd = x-v.x;
 					int yd = y-v.y;
-					double Distance = Math.sqrt(xd*xd+yd*yd);
+					int Distance = Math.max(Math.abs(y-v.y),Math.abs(x-v.x));
+					//double Distance = Math.sqrt(xd*xd+yd*yd);
 					if(minDistance > Distance)
 					{
 						fieldToFind=new Field(v.x, v.y);
