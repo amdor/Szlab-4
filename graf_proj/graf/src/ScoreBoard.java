@@ -47,35 +47,29 @@ public class ScoreBoard extends JFrame {
 		 
 		 Font font24 = new Font("Tahoma", 0, 24);
 		 
+		 //Menu Title
 		 JLabel title = new JLabel("Eredmények");
 		 title.setFont(font24);
 		 title.setHorizontalAlignment(SwingConstants.CENTER);
-		 panel.add(Box.createRigidArea(new Dimension(0,20)));
+		 panel.add(Box.createRigidArea(new Dimension(0,20)));//White space
 		 panel.add(title);
 		 panel.add(Box.createRigidArea(new Dimension(0,30)));
 		 
-		 //panel.setBorder(BorderFactory.createLineBorder(Color.black));
-		 /*
-		 String[] pl = new String[]{"Béla","Sanyi","Kati"};
-		 String[] pl2 = new String[]{"Árpi","Mari","Peti","Reni","ASDASD"};
-		 this.AddToScoreBoard(pl);
-		 this.AddToScoreBoard(pl2);
-		 */
-		 
-		 
 		 JPanel gameScore;
-		 //gameScore.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.red));
-		 		 
+		 //Read from file
 		 scoreTable = ReadScoreBoard();
 		 
-		 JLabel label;
+		 JLabel label;//Label for Player name
+		 //Add Compomonents to Panel
 		 for(ArrayList<String> list : scoreTable){
+			 //Panel for game results
 			 gameScore = new JPanel();
 			 gameScore.setAlignmentX(CENTER_ALIGNMENT);
 			 gameScore.setLayout(new BoxLayout(gameScore, BoxLayout.Y_AXIS));
 			 gameScore.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 			 
 			int i = 1;
+			
 			gameScore.add(Box.createRigidArea(new Dimension(0,10)));
 			for(String str : list){
 				label = new JLabel(i++ + ". helyezett: " + str);
@@ -84,14 +78,11 @@ public class ScoreBoard extends JFrame {
 			}
 			gameScore.add(Box.createRigidArea(new Dimension(0,10)));
 			
-			//gameScore.setPreferredSize(getPreferredSize());
 			panel.add(gameScore);
 		 } 
 		 
 		 scrollpane = new JScrollPane(panel);
 
-		 //scrollpane.setAlignmentX(CENTER_ALIGNMENT);
-		 scrollpane.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
 		 scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		 getContentPane().add(scrollpane, BorderLayout.CENTER);
 	}
