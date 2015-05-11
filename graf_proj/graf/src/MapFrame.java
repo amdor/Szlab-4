@@ -99,6 +99,20 @@ public class MapFrame extends JFrame implements ActionListener {
 			if(bots.size() == 0)
 				return; 
 			
+			for(int i=0; i<Map.fields.size(); i++){
+			for(int j=0; j<Map.fields.get(i).size(); j++){
+				Field v=Map.getInstance().getField(i, j);
+				
+				if(v.getHasOil()){
+					Oil o =(Oil)v.getObstacle();
+					if(o.roundCount<3)
+						o.roundCount++;
+					else
+						Map.getInstance().getField(i, j).removeObstacle();
+				}
+			}
+		}
+			
 			Integer x = (Integer)dx.getValue();
 			Integer y = (Integer)dy.getValue();
 			

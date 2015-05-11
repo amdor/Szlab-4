@@ -111,6 +111,14 @@ public class Field {
 		obstacle = obs;
 	}
 	
+	
+	/**
+	 * return with the obstacle
+	 */
+	public Obstacle getObstacle(){
+		return obstacle;
+	}
+	
 	/**
 	 * Removes the obstacle from the field if it has any
 	 */

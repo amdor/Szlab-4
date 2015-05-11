@@ -26,10 +26,10 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public class MapPanel extends JPanel {
-	private static int width = 600;
-	private static int height = 300;
-	public static int rowCount = 8;
-	public static int columnCount = 16;
+	private static int width = 1200;
+	private static int height = 600;
+	public static int rowCount = 16;
+	public static int columnCount = 32;
 	private int cellWidth = width / columnCount;
 	private int cellHeight = height / rowCount;
 	private int xOffset = (width - (columnCount * cellWidth)) / 2;//if the grid is not the same size as the panel, this posiotions it to the center
